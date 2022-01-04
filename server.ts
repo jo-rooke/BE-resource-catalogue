@@ -35,6 +35,22 @@ client.connect().then(() => {
   app.listen(port, () => {
     console.log(`Server is up and running on port ${port}`);
   });
+  
+//GET 
+// app.get("/", async (req, res) => {
+// });
+
+// GET /users
+app.get("/users", async (req, res) => {
+  const dbres = await client.query("select * from users");
+  const userList = dbres.rows;
+  res.status(200).json({
+    status: "success",
+    data: {
+      userList: userList,
+    },
+  });
+});
 
   app.get("/tags", async (req, res) => {
     const text = "select * from tag_names";
