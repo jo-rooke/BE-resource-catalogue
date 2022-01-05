@@ -174,35 +174,24 @@ client.connect().then(() => {
 
   app.get("/resources/:resourceId", async (req, res) => {
     const resourceId = req.params.resourceId;
-    const resourcesQuery =
-      "select * from resources join users on resources.recommender_id = users.id where resources.id = $1";
-    const dbres = await client.query(resourcesQuery, [resourceId]);
-
-    const feedbackQuery =
-      "select feedback.id as feedback_id, user_id, resource_id, liked, comment, name, is_faculty from feedback join users on feedback.user_id = users.id where feedback.resource_id = $1";
-    const dbresTwo = await client.query(feedbackQuery, [resourceId]);
+    const resourceQuery =
+      "SELECT resources.*, users.name, users.is_faculty FROM resources JOIN users ON resources.recommender_id = users.id WHERE resources.id = $1";
+    const dbres = await client.query(resourceQuery, [resourceId]);
+    const likeCountQuery =
+      "SELECT liked FROM feedback WHERE feedback.resource_id = $1";
+    const dbresTwo = await client.query(likeCountQuery, [resourceId]);
 
     const tagsQuery =
-      "select tags.resource_id, tag_names.name from tags join tag_names on tags.tag_id = tag_names.id where tags.resource_id = $1";
+      "SELECT tags.tag_id AS id, tag_names.name FROM tags JOIN tag_names ON tags.tag_id = tag_names.id WHERE tags.resource_id = $1";
     const dbresThree = await client.query(tagsQuery, [resourceId]);
-
-    for (const resource of dbres.rows) {
-      const tags = [];
-      const likes = [];
-      for (const feedback of dbresTwo.rows) {
-        if (resource.id === feedback.resource_id) {
-          likes.push(feedback.liked);
-        }
-      }
-      for (const tag of dbresThree.rows) {
-        if (resource.id === tag.resource_id) {
-          tags.push(tag.name);
-        }
-      }
-      resource.tags = tags;
-      resource.likes = likes.filter((element) => element).length;
-      resource.dislikes = likes.filter((element) => !element).length;
+    const tags = [];
+    const likes = [];
+    for (const feedback of dbresTwo.rows) {
+      likes.push(feedback.liked);
     }
+    dbres.rows[0].tags = dbresThree.rows;
+    dbres.rows[0].likes = likes.filter((element) => element).length;
+    dbres.rows[0].dislikes = likes.filter((element) => !element).length;
 
     res.status(200).json({
       status: "success",
