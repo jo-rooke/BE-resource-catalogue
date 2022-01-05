@@ -61,12 +61,18 @@ client.connect().then(() => {
     const query2 =
       "select to_study_list.resource_id, tag_names.name from to_study_list join tags on to_study_list.resource_id = tags.resource_id join tag_names on tags.tag_id = tag_names.id where to_study_list.user_id = $1";
     const dbres2 = await client.query(query2, [userId]);
+    for (const resource of dbres1.rows) {
+      const tags = [];
+      for (const tag of dbres2.rows) {
+        if (resource.id === tag.resource_id) {
+          tags.push(tag.name);
+        }
+      }
+      resource.tags = tags;
+    }
     res.status(200).json({
       status: "success",
-      data: {
-        resources: dbres1.rows,
-        tags: dbres2.rows,
-      },
+      data: dbres1.rows,
     });
   });
 
