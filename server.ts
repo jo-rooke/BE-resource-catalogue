@@ -60,4 +60,37 @@ app.get("/users", async (req, res) => {
       data: dbres.rows,
     });
   });
+
+  app.get("/resources", async (req, res) => {
+    const resourcesQuery = "select id, resource_name, author_name, creation_date from resources order by creation_date desc";
+    const dbres = await client.query(resourcesQuery);
+
+    const feedbackQuery = "select resource_id, liked from feedback";
+    const dbresTwo = await client.query(feedbackQuery);
+
+    const tagsQuery = "select tags.resource_id, tag_names.name from tags join tag_names on tags.tag_id = tag_names.id";
+    const dbresThree = await client.query(tagsQuery);
+
+    for (const resource of dbres.rows) {
+      const tags = [];
+      const likes = [];
+      for (const feedback of dbresTwo.rows) {
+        if (resource.id === feedback.resource_id) {
+          likes.push(feedback.liked);
+        }
+      }
+      for (const tag of dbresThree.rows) {
+        if (resource.id === tag.resource_id) {
+          tags.push(tag.name);
+        }
+      }
+      resource.tags = tags;
+      resource.likes = likes;
+    }
+
+    res.status(200).json({
+      status: "success",
+      data: dbres.rows
+    });
+  });
 });
