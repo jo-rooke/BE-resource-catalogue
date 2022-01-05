@@ -35,22 +35,40 @@ client.connect().then(() => {
   app.listen(port, () => {
     console.log(`Server is up and running on port ${port}`);
   });
-  
-//GET 
-// app.get("/", async (req, res) => {
-// });
 
-// GET /users
-app.get("/users", async (req, res) => {
-  const dbres = await client.query("select * from users");
-  const userList = dbres.rows;
-  res.status(200).json({
-    status: "success",
-    data: {
-      userList: userList,
-    },
+  //GET
+  // app.get("/", async (req, res) => {
+  // });
+
+  // GET /users
+  app.get("/users", async (req, res) => {
+    const dbres = await client.query("select * from users");
+    const userList = dbres.rows;
+    res.status(200).json({
+      status: "success",
+      data: {
+        userList: userList,
+      },
+    });
   });
-});
+
+  // GET /to-study-list/:userId
+  app.get("/to-study-list/:userId", async (req, res) => {
+    const userId = req.params.userId;
+    const query1 =
+      "select resources.id, resources.resource_name, resources.author_name from to_study_list join resources on to_study_list.resource_id = resources.id where to_study_list.user_id = $1";
+    const dbres1 = await client.query(query1, [userId]);
+    const query2 =
+      "select to_study_list.resource_id, tag_names.name from to_study_list join tags on to_study_list.resource_id = tags.resource_id join tag_names on tags.tag_id = tag_names.id where to_study_list.user_id = $1";
+    const dbres2 = await client.query(query2, [userId]);
+    res.status(200).json({
+      status: "success",
+      data: {
+        resources: dbres1.rows,
+        tags: dbres2.rows,
+      },
+    });
+  });
 
   app.get("/tags", async (req, res) => {
     const text = "select * from tag_names";
