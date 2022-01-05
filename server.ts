@@ -84,4 +84,28 @@ client.connect().then(() => {
       }
     }
   );
+
+  // GET /tags/:resourceId
+  app.get<{ resourceId: number }, {}, {}>(
+    "/tags/:resourceId",
+    async (req, res) => {
+      const resourceId = req.params.resourceId;
+      const query1 = "SELECT * FROM resources WHERE id = $1";
+      const dbres1 = await client.query(query1, [resourceId]);
+      if (dbres1.rowCount === 0) {
+        res.status(404).json({
+          status: "failed",
+          message: "Resource not found.",
+        });
+      } else {
+        const query2 =
+          "SELECT tag_names.id, tag_names.name FROM tags JOIN tag_names ON tags.tag_id = tag_names.id WHERE tags.resource_id = $1";
+        const dbres2 = await client.query(query2, [resourceId]);
+        res.status(200).json({
+          status: "success",
+          data: dbres2.rows,
+        });
+      }
+    }
+  );
 });
