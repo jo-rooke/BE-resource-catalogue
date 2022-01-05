@@ -236,7 +236,7 @@ client.connect().then(() => {
       );
       res.status(200).json({
         status: "success",
-        data: resourceAdd,
+        data: resourceAdd.rows,
       });
     } else {
       res.status(405).json({
