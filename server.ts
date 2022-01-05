@@ -105,6 +105,29 @@ client.connect().then(() => {
     }
   );
 
+  // DELETE /to-study-list/:userId
+  app.delete<{ userId: number }, {}, { resourceId: number }>(
+    "/to-study-list/:userId",
+    async (req, res) => {
+      const userId = req.params.userId;
+      const { resourceId } = req.body;
+      const query =
+        "DELETE FROM to_study_list WHERE user_id = $1 AND resource_id = $2 RETURNING *";
+      const dbres = await client.query(query, [userId, resourceId]);
+      if (dbres.rowCount === 0) {
+        res.status(404).json({
+          status: "failed",
+          message: "Resource not found.",
+        });
+      } else {
+        res.status(200).json({
+          status: "success",
+          data: dbres.rows,
+        });
+      }
+    }
+  );
+
   app.get("/tags", async (req, res) => {
     const text = "select * from tag_names";
     const dbres = await client.query(text);
