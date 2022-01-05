@@ -133,4 +133,41 @@ client.connect().then(() => {
       data: dbres.rows,
     });
   });
+
+//POST /resources
+app.post("/resources", async (req, res) => {
+  //we get a name from the front end
+  //then get the user id from the name
+  //then insert it into resources
+  const { resource_name, author_name, url, description, content_type, week_no, creation_date, name, rec_status, rec_message} = req.body;
+  const queryResults = await client.query(
+    "select * from resources where url = $1",
+    [url]
+  );
+  const resourceFound = queryResults.rows[0];
+
+  const queryResultTwo = await client.query(
+    "select id from users where name = $1",
+    [name]
+  );
+  const recommenderId = queryResultTwo.rows[0].id;
+
+
+  if (!resourceFound) {
+    const resourceAdd = await client.query(
+      "insert into resources (resource_name, author_name, url, description, content_type, week_no, recommender_id, rec_status, rec_message) values ($1, $2, $3, $4, $5, $6, $7, $8, $9) returning *",
+      [resource_name, author_name, url, description, content_type, week_no, recommenderId, rec_status, rec_message]
+    );
+    res.status(200).json({
+      status: "success",
+      data: resourceAdd,
+    });
+  } else {
+    res.status(405).json({
+      status: "failed",
+      message: "there is already a resource with that url"
+    });
+  }
+});
+
 });
