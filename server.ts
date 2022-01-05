@@ -137,6 +137,126 @@ client.connect().then(() => {
     });
   });
 
+  app.get("/resources", async (req, res) => {
+    const resourcesQuery =
+      "select id, resource_name, author_name, creation_date from resources order by creation_date desc";
+    const dbres = await client.query(resourcesQuery);
+
+    const feedbackQuery = "select resource_id, liked from feedback";
+    const dbresTwo = await client.query(feedbackQuery);
+
+    const tagsQuery =
+      "select tags.resource_id, tag_names.name from tags join tag_names on tags.tag_id = tag_names.id";
+    const dbresThree = await client.query(tagsQuery);
+
+    for (const resource of dbres.rows) {
+      const tags = [];
+      const likes = [];
+      for (const feedback of dbresTwo.rows) {
+        if (resource.id === feedback.resource_id) {
+          likes.push(feedback.liked);
+        }
+      }
+      for (const tag of dbresThree.rows) {
+        if (resource.id === tag.resource_id) {
+          tags.push(tag.name);
+        }
+      }
+      resource.tags = tags;
+      resource.likes = likes;
+    }
+
+    res.status(200).json({
+      status: "success",
+      data: dbres.rows,
+    });
+  });
+
+  app.get("/resources/:resourceId", async (req, res) => {
+    const resourceId = req.params.resourceId;
+    const resourcesQuery =
+      "select * from resources join users on resources.recommender_id = users.id where resources.id = $1";
+    const dbres = await client.query(resourcesQuery, [resourceId]);
+
+    const feedbackQuery =
+      "select feedback.id as feedback_id, user_id, resource_id, liked, comment, name, is_faculty from feedback join users on feedback.user_id = users.id where feedback.resource_id = $1";
+    const dbresTwo = await client.query(feedbackQuery, [resourceId]);
+
+    const tagsQuery =
+      "select tags.resource_id, tag_names.name from tags join tag_names on tags.tag_id = tag_names.id where tags.resource_id = $1";
+    const dbresThree = await client.query(tagsQuery, [resourceId]);
+
+    for (const resource of dbres.rows) {
+      const tags = [];
+      const likes = [];
+      for (const feedback of dbresTwo.rows) {
+        if (resource.id === feedback.resource_id) {
+          likes.push(feedback.liked);
+        }
+      }
+      for (const tag of dbresThree.rows) {
+        if (resource.id === tag.resource_id) {
+          tags.push(tag.name);
+        }
+      }
+      resource.tags = tags;
+      resource.likes = likes.filter((element) => element).length;
+      resource.dislikes = likes.filter((element) => !element).length;
+    }
+
+    res.status(200).json({
+      status: "success",
+      data: dbres.rows,
+    });
+  });
+
+  //POST /resources
+  app.post("/resources", async (req, res) => {
+    const {
+      resource_name,
+      author_name,
+      url,
+      description,
+      content_type,
+      week_no,
+      creation_date,
+      recommender_id,
+      rec_status,
+      rec_message,
+    } = req.body;
+    const queryResults = await client.query(
+      "select * from resources where url = $1",
+      [url]
+    );
+    const resourceFound = queryResults.rows[0];
+
+    if (!resourceFound) {
+      const resourceAdd = await client.query(
+        "insert into resources (resource_name, author_name, url, description, content_type, week_no, recommender_id, rec_status, rec_message) values ($1, $2, $3, $4, $5, $6, $7, $8, $9) returning *",
+        [
+          resource_name,
+          author_name,
+          url,
+          description,
+          content_type,
+          week_no,
+          recommender_id,
+          rec_status,
+          rec_message,
+        ]
+      );
+      res.status(200).json({
+        status: "success",
+        data: resourceAdd,
+      });
+    } else {
+      res.status(405).json({
+        status: "failed",
+        message: "there is already a resource with that url",
+      });
+    }
+  });
+
   // GET /comments/:resourceId
   app.get<{ resourceId: number }, {}, {}>(
     "/comments/:resourceId",
