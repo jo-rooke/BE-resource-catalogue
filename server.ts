@@ -53,28 +53,31 @@ client.connect().then(() => {
   });
 
   // GET /to-study-list/:userId
-  app.get("/to-study-list/:userId", async (req, res) => {
-    const userId = req.params.userId;
-    const query1 =
-      "select resources.id, resources.resource_name, resources.author_name from to_study_list join resources on to_study_list.resource_id = resources.id where to_study_list.user_id = $1";
-    const dbres1 = await client.query(query1, [userId]);
-    const query2 =
-      "select to_study_list.resource_id, tag_names.name from to_study_list join tags on to_study_list.resource_id = tags.resource_id join tag_names on tags.tag_id = tag_names.id where to_study_list.user_id = $1";
-    const dbres2 = await client.query(query2, [userId]);
-    for (const resource of dbres1.rows) {
-      const tags = [];
-      for (const tag of dbres2.rows) {
-        if (resource.id === tag.resource_id) {
-          tags.push(tag.name);
+  app.get<{ userId: number }, {}, {}>(
+    "/to-study-list/:userId",
+    async (req, res) => {
+      const userId = req.params.userId;
+      const query1 =
+        "select resources.id, resources.resource_name, resources.author_name from to_study_list join resources on to_study_list.resource_id = resources.id where to_study_list.user_id = $1";
+      const dbres1 = await client.query(query1, [userId]);
+      const query2 =
+        "select to_study_list.resource_id, tag_names.name from to_study_list join tags on to_study_list.resource_id = tags.resource_id join tag_names on tags.tag_id = tag_names.id where to_study_list.user_id = $1";
+      const dbres2 = await client.query(query2, [userId]);
+      for (const resource of dbres1.rows) {
+        const tags = [];
+        for (const tag of dbres2.rows) {
+          if (resource.id === tag.resource_id) {
+            tags.push(tag.name);
+          }
         }
+        resource.tags = tags;
       }
-      resource.tags = tags;
+      res.status(200).json({
+        status: "success",
+        data: dbres1.rows,
+      });
     }
-    res.status(200).json({
-      status: "success",
-      data: dbres1.rows,
-    });
-  });
+  );
 
   // POST /to-study-list/:userId
   app.post<{ userId: number }, {}, { resourceId: number }>(
