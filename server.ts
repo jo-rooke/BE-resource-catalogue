@@ -85,13 +85,23 @@ client.connect().then(() => {
     async (req, res) => {
       const userId = req.params.userId;
       const { resourceId } = req.body;
-      const query =
-        "INSERT INTO to_study_list (user_id, resource_id) values ($1, $2) returning *";
-      const dbres = await client.query(query, [userId, resourceId]);
-      res.status(201).json({
-        status: "success",
-        data: dbres.rows,
-      });
+      const query1 =
+        "SELECT * FROM to_study_list where user_id = $1 and resource_id = $2";
+      const dbres1 = await client.query(query1, [userId, resourceId]);
+      if (dbres1.rowCount === 0) {
+        const query2 =
+          "INSERT INTO to_study_list (user_id, resource_id) values ($1, $2) returning *";
+        const dbres2 = await client.query(query2, [userId, resourceId]);
+        res.status(201).json({
+          status: "success",
+          data: dbres2.rows,
+        });
+      } else {
+        res.status(405).json({
+          status: "failed",
+          message: "Resource is already in the to-study list.",
+        });
+      }
     }
   );
 
