@@ -35,22 +35,22 @@ client.connect().then(() => {
   app.listen(port, () => {
     console.log(`Server is up and running on port ${port}`);
   });
-  
-//GET 
-// app.get("/", async (req, res) => {
-// });
 
-// GET /users
-app.get("/users", async (req, res) => {
-  const dbres = await client.query("select * from users");
-  const userList = dbres.rows;
-  res.status(200).json({
-    status: "success",
-    data: {
-      userList: userList,
-    },
+  //GET
+  // app.get("/", async (req, res) => {
+  // });
+
+  // GET /users
+  app.get("/users", async (req, res) => {
+    const dbres = await client.query("select * from users");
+    const userList = dbres.rows;
+    res.status(200).json({
+      status: "success",
+      data: {
+        userList: userList,
+      },
+    });
   });
-});
 
   app.get("/tags", async (req, res) => {
     const text = "select * from tag_names";
@@ -60,4 +60,28 @@ app.get("/users", async (req, res) => {
       data: dbres.rows,
     });
   });
+
+  // GET /comments/:resourceId
+  app.get<{ resourceId: number }, {}, {}>(
+    "/comments/:resourceId",
+    async (req, res) => {
+      const resourceId = req.params.resourceId;
+      const query1 = "SELECT * FROM resources WHERE id = $1";
+      const dbres1 = await client.query(query1, [resourceId]);
+      if (dbres1.rowCount === 0) {
+        res.status(404).json({
+          status: "failed",
+          message: "Resource not found.",
+        });
+      } else {
+        const query2 =
+          "SELECT feedback.id, feedback.liked, feedback.comment, users.name FROM feedback JOIN users ON feedback.user_id = users.id WHERE resource_id = $1";
+        const dbres2 = await client.query(query2, [resourceId]);
+        res.status(200).json({
+          status: "success",
+          data: dbres2.rows,
+        });
+      }
+    }
+  );
 });
