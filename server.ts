@@ -76,6 +76,22 @@ client.connect().then(() => {
     });
   });
 
+  // POST /to-study-list/:userId
+  app.post<{ userId: number }, {}, { resourceId: number }>(
+    "/to-study-list/:userId",
+    async (req, res) => {
+      const userId = req.params.userId;
+      const { resourceId } = req.body;
+      const query =
+        "INSERT INTO to_study_list (user_id, resource_id) values ($1, $2) returning *";
+      const dbres = await client.query(query, [userId, resourceId]);
+      res.status(201).json({
+        status: "success",
+        data: dbres.rows,
+      });
+    }
+  );
+
   app.get("/tags", async (req, res) => {
     const text = "select * from tag_names";
     const dbres = await client.query(text);
