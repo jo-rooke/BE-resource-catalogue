@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Resource Catalogue</title>
+    <style type="text/css">
+      body {
+        font-family: Trebuchet MS, sans-serif;
+        font-size: 15px;
+        color: #444;
+        margin-right: 24px;
+      }
+
+      h1 {
+        font-size: 25px;
+      }
+      h2 {
+        font-size: 20px;
+      }
+      h3 {
+        font-size: 16px;
+        font-weight: bold;
+      }
+      hr {
+        height: 1px;
+        border: 0;
+        color: #ddd;
+        background-color: #ddd;
+      }
+
+      .app-desc {
+        clear: both;
+        margin-left: 20px;
+      }
+      .param-name {
+        width: 100%;
+      }
+      .license-info {
+        margin-left: 20px;
+      }
+
+      .license-url {
+        margin-left: 20px;
+      }
+
+      .model {
+        margin: 0 0 0px 20px;
+      }
+
+      .method {
+        margin-left: 20px;
+      }
+
+      .method-notes {
+        margin: 10px 0 20px 0;
+        font-size: 90%;
+        color: #555;
+      }
+
+      pre {
+        padding: 10px;
+        margin-bottom: 2px;
+      }
+
+      .http-method {
+        text-transform: uppercase;
+      }
+
+      pre.get {
+        background-color: #0f6ab4;
+      }
+
+      pre.post {
+        background-color: #10a54a;
+      }
+
+      pre.put {
+        background-color: #c5862b;
+      }
+
+      pre.delete {
+        background-color: #a41e22;
+      }
+
+      .huge {
+        color: #fff;
+      }
+
+      pre.example {
+        background-color: #f3f3f3;
+        padding: 10px;
+        border: 1px solid #ddd;
+      }
+
+      code {
+        white-space: pre;
+      }
+
+      .nickname {
+        font-weight: bold;
+      }
+
+      .method-path {
+        font-size: 1.5em;
+        background-color: #0f6ab4;
+      }
+
+      .up {
+        float: right;
+      }
+
+      .parameter {
+        width: 500px;
+      }
+
+      .param {
+        width: 500px;
+        padding: 10px 0 0 20px;
+        font-weight: bold;
+      }
+
+      .param-desc {
+        width: 700px;
+        padding: 0 0 0 20px;
+        color: #777;
+      }
+
+      .param-type {
+        font-style: italic;
+      }
+
+      .param-enum-header {
+        width: 700px;
+        padding: 0 0 0 60px;
+        color: #777;
+        font-weight: bold;
+      }
+
+      .param-enum {
+        width: 700px;
+        padding: 0 0 0 80px;
+        color: #777;
+        font-style: italic;
+      }
+
+      .field-label {
+        padding: 0;
+        margin: 0;
+        clear: both;
+      }
+
+      .field-items {
+        padding: 0 0 15px 0;
+        margin-bottom: 15px;
+      }
+
+      .return-type {
+        clear: both;
+        padding-bottom: 10px;
+      }
+
+      .param-header {
+        font-weight: bold;
+      }
+
+      .method-tags {
+        text-align: right;
+      }
+
+      .method-tag {
+        background: none repeat scroll 0% 0% #24a600;
+        border-radius: 3px;
+        padding: 2px 10px;
+        margin: 2px;
+        color: #fff;
+        display: inline-block;
+        text-decoration: none;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Resource Catalogue</h1>
+    <div class="app-desc">
+      API documentation for team C3C5's resource catalogue
+    </div>
+
+    <h3>Table of Contents</h3>
+    <div class="method-summary"></div>
+    <h4><a href="#Comments">Comments</a></h4>
+    <ul>
+      <li>
+        <a href="#getComments"
+          ><code
+            ><span class="http-method">get</span> /comments/{resourceId}</code
+          ></a
+        >
+      </li>
+    </ul>
+    <h4><a href="#Resources">Resources</a></h4>
+    <ul>
+      <li>
+        <a href="#getResources"
+          ><code><span class="http-method">get</span> /resources</code></a
+        >
+      </li>
+      <li>
+        <a href="#getSpecificResource"
+          ><code
+            ><span class="http-method">get</span> /resources/{resourceId}</code
+          ></a
+        >
+      </li>
+      <li>
+        <a href="#postResource"
+          ><code><span class="http-method">post</span> /resources</code></a
+        >
+      </li>
+    </ul>
+    <h4><a href="#StudyList">StudyList</a></h4>
+    <ul>
+      <li>
+        <a href="#addItemToStudyList"
+          ><code
+            ><span class="http-method">post</span> /to-study-list/{userId}</code
+          ></a
+        >
+      </li>
+      <li>
+        <a href="#deleteItemInStudyList"
+          ><code
+            ><span class="http-method">delete</span>
+            /to-study-list/{userId}</code
+          ></a
+        >
+      </li>
+      <li>
+        <a href="#getStudyListForUser"
+          ><code
+            ><span class="http-method">get</span> /to-study-list/{userId}</code
+          ></a
+        >
+      </li>
+    </ul>
+    <h4><a href="#Tag">Tag</a></h4>
+    <ul>
+      <li>
+        <a href="#getTags"
+          ><code><span class="http-method">get</span> /tags</code></a
+        >
+      </li>
+    </ul>
+    <h4><a href="#Users">Users</a></h4>
+    <ul>
+      <li>
+        <a href="#getUsers"
+          ><code><span class="http-method">get</span> /users</code></a
+        >
+      </li>
+    </ul>
+
+    <h1><a name="Comments">Comments</a></h1>
+    <div class="method">
+      <a name="getComments" />
+      <div class="method-path">
+        <a class="up" href="#__Methods">Up</a>
+        <pre
+          class="get"
+        ><code class="huge"><span class="http-method">get</span> /comments/{resourceId}</code></pre>
+      </div>
+      <div class="method-summary">
+        return all comments on a given resource (<span class="nickname"
+          >getComments</span
+        >)
+      </div>
+      <div class="method-notes"></div>
+
+      <h3 class="field-label">Path parameters</h3>
+      <div class="field-items">
+        <div class="param">resourceId (required)</div>
+
+        <div class="param-desc">
+          <span class="param-type">Path Parameter</span> &mdash; ID of the
+          resource to find comments from
+        </div>
+      </div>
+      <!-- field-items -->
+
+      <h3 class="field-label">Return type</h3>
+      <div class="return-type">Object</div>
+
+      <!--Todo: process Response Object and its headers, schema, examples -->
+
+      <h3 class="field-label">Example data</h3>
+      <div class="example-data-content-type">
+        Content-Type: application/json
+      </div>
+      <pre class="example"><code>{
+  "bytes": [
+    123,
+    125
+  ],
+  "empty": false
+}</code></pre>
+
+      <h3 class="field-label">Produces</h3>
+      This API call produces the following media types according to the
+      <span class="header">Accept</span> request header; the media type will be
+      conveyed by the <span class="header">Content-Type</span> response header.
+      <ul>
+        <li><code>application/json</code></li>
+      </ul>
+
+      <h3 class="field-label">Responses</h3>
+      <h4 class="field-label">200</h4>
+      OK
+      <a href="#Object">Object</a>
+      <h4 class="field-label">404</h4>
+      Not found
+      <a href="#Object">Object</a>
+    </div>
+    <!-- method -->
+    <hr />
+    <h1><a name="Resources">Resources</a></h1>
+    <div class="method">
+      <a name="getResources" />
+      <div class="method-path">
+        <a class="up" href="#__Methods">Up</a>
+        <pre
+          class="get"
+        ><code class="huge"><span class="http-method">get</span> /resources</code></pre>
+      </div>
+      <div class="method-summary">
+        Get all the resources in the database with their tags and likes (<span
+          class="nickname"
+          >getResources</span
+        >)
+      </div>
+      <div class="method-notes"></div>
+
+      <h3 class="field-label">Return type</h3>
+      <div class="return-type">Object</div>
+
+      <!--Todo: process Response Object and its headers, schema, examples -->
+
+      <h3 class="field-label">Example data</h3>
+      <div class="example-data-content-type">
+        Content-Type: application/json
+      </div>
+      <pre class="example"><code>{}</code></pre>
+
+      <h3 class="field-label">Produces</h3>
+      This API call produces the following media types according to the
+      <span class="header">Accept</span> request header; the media type will be
+      conveyed by the <span class="header">Content-Type</span> response header.
+      <ul>
+        <li><code>application/json</code></li>
+      </ul>
+
+      <h3 class="field-label">Responses</h3>
+      <h4 class="field-label">200</h4>
+      OK
+      <a href="#Object">Object</a>
+    </div>
+    <!-- method -->
+    <hr />
+    <div class="method">
+      <a name="getSpecificResource" />
+      <div class="method-path">
+        <a class="up" href="#__Methods">Up</a>
+        <pre
+          class="get"
+        ><code class="huge"><span class="http-method">get</span> /resources/{resourceId}</code></pre>
+      </div>
+      <div class="method-summary">
+        Get all the resources in the database with their tags and likes (<span
+          class="nickname"
+          >getSpecificResource</span
+        >)
+      </div>
+      <div class="method-notes"></div>
+
+      <h3 class="field-label">Path parameters</h3>
+      <div class="field-items">
+        <div class="param">resourceId (required)</div>
+
+        <div class="param-desc">
+          <span class="param-type">Path Parameter</span> &mdash; Resource ID
+        </div>
+      </div>
+      <!-- field-items -->
+
+      <h3 class="field-label">Return type</h3>
+      <div class="return-type">Object</div>
+
+      <!--Todo: process Response Object and its headers, schema, examples -->
+
+      <h3 class="field-label">Example data</h3>
+      <div class="example-data-content-type">
+        Content-Type: application/json
+      </div>
+      <pre class="example"><code>{}</code></pre>
+
+      <h3 class="field-label">Produces</h3>
+      This API call produces the following media types according to the
+      <span class="header">Accept</span> request header; the media type will be
+      conveyed by the <span class="header">Content-Type</span> response header.
+      <ul>
+        <li><code>application/json</code></li>
+      </ul>
+
+      <h3 class="field-label">Responses</h3>
+      <h4 class="field-label">200</h4>
+      OK
+      <a href="#Object">Object</a>
+    </div>
+    <!-- method -->
+    <hr />
+    <div class="method">
+      <a name="postResource" />
+      <div class="method-path">
+        <a class="up" href="#__Methods">Up</a>
+        <pre
+          class="post"
+        ><code class="huge"><span class="http-method">post</span> /resources</code></pre>
+      </div>
+      <div class="method-summary">
+        Post a new resource to the databases of resources, with a non-duplicate
+        url (<span class="nickname">postResource</span>)
+      </div>
+      <div class="method-notes"></div>
+
+      <h3 class="field-label">Request body</h3>
+      <div class="field-items">
+        <div class="param">body (required)</div>
+
+        <div class="param-desc">
+          <span class="param-type">Body Parameter</span> &mdash; A request body
+          containing resource name, author name, url, description, content type,
+          week number, recommender's id, recommendation status, and
+          recommendation message
+        </div>
+      </div>
+      <!-- field-items -->
+
+      <h3 class="field-label">Return type</h3>
+      <div class="return-type">Object</div>
+
+      <!--Todo: process Response Object and its headers, schema, examples -->
+
+      <h3 class="field-label">Example data</h3>
+      <div class="example-data-content-type">
+        Content-Type: application/json
+      </div>
+      <pre class="example"><code>{}</code></pre>
+
+      <h3 class="field-label">Produces</h3>
+      This API call produces the following media types according to the
+      <span class="header">Accept</span> request header; the media type will be
+      conveyed by the <span class="header">Content-Type</span> response header.
+      <ul>
+        <li><code>application/json</code></li>
+      </ul>
+
+      <h3 class="field-label">Responses</h3>
+      <h4 class="field-label">200</h4>
+      OK
+      <a href="#Object">Object</a>
+      <h4 class="field-label">405</h4>
+      Method not allowed
+      <a href="#Object">Object</a>
+    </div>
+    <!-- method -->
+    <hr />
+    <h1><a name="StudyList">StudyList</a></h1>
+    <div class="method">
+      <a name="addItemToStudyList" />
+      <div class="method-path">
+        <a class="up" href="#__Methods">Up</a>
+        <pre
+          class="post"
+        ><code class="huge"><span class="http-method">post</span> /to-study-list/{userId}</code></pre>
+      </div>
+      <div class="method-summary">
+        Adds to the study list of an individual user (<span class="nickname"
+          >addItemToStudyList</span
+        >)
+      </div>
+      <div class="method-notes"></div>
+
+      <h3 class="field-label">Path parameters</h3>
+      <div class="field-items">
+        <div class="param">userId (required)</div>
+
+        <div class="param-desc">
+          <span class="param-type">Path Parameter</span> &mdash; ID of user to
+          add to their study list
+        </div>
+      </div>
+      <!-- field-items -->
+
+      <h3 class="field-label">Request body</h3>
+      <div class="field-items">
+        <div class="param">body (required)</div>
+
+        <div class="param-desc">
+          <span class="param-type">Body Parameter</span> &mdash; adding a new
+          item to the specific users study list
+        </div>
+      </div>
+      <!-- field-items -->
+
+      <h3 class="field-label">Return type</h3>
+      <div class="return-type">Object</div>
+
+      <!--Todo: process Response Object and its headers, schema, examples -->
+
+      <h3 class="field-label">Example data</h3>
+      <div class="example-data-content-type">
+        Content-Type: application/json
+      </div>
+      <pre class="example"><code>{}</code></pre>
+
+      <h3 class="field-label">Produces</h3>
+      This API call produces the following media types according to the
+      <span class="header">Accept</span> request header; the media type will be
+      conveyed by the <span class="header">Content-Type</span> response header.
+      <ul>
+        <li><code>application/json</code></li>
+      </ul>
+
+      <h3 class="field-label">Responses</h3>
+      <h4 class="field-label">201</h4>
+      Created
+      <a href="#Object">Object</a>
+      <h4 class="field-label">405</h4>
+      Method Not Allowed
+      <a href="#Object">Object</a>
+    </div>
+    <!-- method -->
+    <hr />
+    <div class="method">
+      <a name="deleteItemInStudyList" />
+      <div class="method-path">
+        <a class="up" href="#__Methods">Up</a>
+        <pre
+          class="delete"
+        ><code class="huge"><span class="http-method">delete</span> /to-study-list/{userId}</code></pre>
+      </div>
+      <div class="method-summary">
+        delete an item from study list for an individual user (<span
+          class="nickname"
+          >deleteItemInStudyList</span
+        >)
+      </div>
+      <div class="method-notes"></div>
+
+      <h3 class="field-label">Path parameters</h3>
+      <div class="field-items">
+        <div class="param">userId (required)</div>
+
+        <div class="param-desc">
+          <span class="param-type">Path Parameter</span> &mdash; ID of user to
+          delete item from their study list
+        </div>
+      </div>
+      <!-- field-items -->
+
+      <h3 class="field-label">Request body</h3>
+      <div class="field-items">
+        <div class="param">body (required)</div>
+
+        <div class="param-desc">
+          <span class="param-type">Body Parameter</span> &mdash; removing an
+          item to the specific users study list
+        </div>
+      </div>
+      <!-- field-items -->
+
+      <h3 class="field-label">Return type</h3>
+      <div class="return-type">Object</div>
+
+      <!--Todo: process Response Object and its headers, schema, examples -->
+
+      <h3 class="field-label">Example data</h3>
+      <div class="example-data-content-type">
+        Content-Type: application/json
+      </div>
+      <pre class="example"><code>{}</code></pre>
+
+      <h3 class="field-label">Produces</h3>
+      This API call produces the following media types according to the
+      <span class="header">Accept</span> request header; the media type will be
+      conveyed by the <span class="header">Content-Type</span> response header.
+      <ul>
+        <li><code>application/json</code></li>
+      </ul>
+
+      <h3 class="field-label">Responses</h3>
+      <h4 class="field-label">200</h4>
+      OK
+      <a href="#Object">Object</a>
+      <h4 class="field-label">404</h4>
+      Not Found
+      <a href="#Object">Object</a>
+    </div>
+    <!-- method -->
+    <hr />
+    <div class="method">
+      <a name="getStudyListForUser" />
+      <div class="method-path">
+        <a class="up" href="#__Methods">Up</a>
+        <pre
+          class="get"
+        ><code class="huge"><span class="http-method">get</span> /to-study-list/{userId}</code></pre>
+      </div>
+      <div class="method-summary">
+        Returns the study list of an individual user (<span class="nickname"
+          >getStudyListForUser</span
+        >)
+      </div>
+      <div class="method-notes">The list of a user's favourited resources</div>
+
+      <h3 class="field-label">Path parameters</h3>
+      <div class="field-items">
+        <div class="param">userId (required)</div>
+
+        <div class="param-desc">
+          <span class="param-type">Path Parameter</span> &mdash; ID of user to
+          return their study list
+        </div>
+      </div>
+      <!-- field-items -->
+
+      <h3 class="field-label">Return type</h3>
+      <div class="return-type">Object</div>
+
+      <!--Todo: process Response Object and its headers, schema, examples -->
+
+      <h3 class="field-label">Example data</h3>
+      <div class="example-data-content-type">
+        Content-Type: application/json
+      </div>
+      <pre class="example"><code>{}</code></pre>
+
+      <h3 class="field-label">Produces</h3>
+      This API call produces the following media types according to the
+      <span class="header">Accept</span> request header; the media type will be
+      conveyed by the <span class="header">Content-Type</span> response header.
+      <ul>
+        <li><code>application/json</code></li>
+      </ul>
+
+      <h3 class="field-label">Responses</h3>
+      <h4 class="field-label">200</h4>
+      OK
+      <a href="#Object">Object</a>
+    </div>
+    <!-- method -->
+    <hr />
+    <h1><a name="Tag">Tag</a></h1>
+    <div class="method">
+      <a name="getTags" />
+      <div class="method-path">
+        <a class="up" href="#__Methods">Up</a>
+        <pre
+          class="get"
+        ><code class="huge"><span class="http-method">get</span> /tags</code></pre>
+      </div>
+      <div class="method-summary">
+        Get all the tags in the database (<span class="nickname">getTags</span>)
+      </div>
+      <div class="method-notes"></div>
+
+      <h3 class="field-label">Return type</h3>
+      <div class="return-type">Object</div>
+
+      <!--Todo: process Response Object and its headers, schema, examples -->
+
+      <h3 class="field-label">Example data</h3>
+      <div class="example-data-content-type">
+        Content-Type: application/json
+      </div>
+      <pre class="example"><code>{}</code></pre>
+
+      <h3 class="field-label">Produces</h3>
+      This API call produces the following media types according to the
+      <span class="header">Accept</span> request header; the media type will be
+      conveyed by the <span class="header">Content-Type</span> response header.
+      <ul>
+        <li><code>application/json</code></li>
+      </ul>
+
+      <h3 class="field-label">Responses</h3>
+      <h4 class="field-label">200</h4>
+      OK
+      <a href="#Object">Object</a>
+    </div>
+    <!-- method -->
+    <hr />
+    <h1><a name="Users">Users</a></h1>
+    <div class="method">
+      <a name="getUsers" />
+      <div class="method-path">
+        <a class="up" href="#__Methods">Up</a>
+        <pre
+          class="get"
+        ><code class="huge"><span class="http-method">get</span> /users</code></pre>
+      </div>
+      <div class="method-summary">
+        Return all users (<span class="nickname">getUsers</span>)
+      </div>
+      <div class="method-notes">List of users that can add resources</div>
+
+      <h3 class="field-label">Return type</h3>
+      <div class="return-type">Object</div>
+
+      <!--Todo: process Response Object and its headers, schema, examples -->
+
+      <h3 class="field-label">Example data</h3>
+      <div class="example-data-content-type">
+        Content-Type: application/json
+      </div>
+      <pre class="example"><code>{}</code></pre>
+
+      <h3 class="field-label">Produces</h3>
+      This API call produces the following media types according to the
+      <span class="header">Accept</span> request header; the media type will be
+      conveyed by the <span class="header">Content-Type</span> response header.
+      <ul>
+        <li><code>application/json</code></li>
+      </ul>
+
+      <h3 class="field-label">Responses</h3>
+      <h4 class="field-label">200</h4>
+      OK
+      <a href="#Object">Object</a>
+    </div>
+    <!-- method -->
+    <hr />
+  </body>
+</html>

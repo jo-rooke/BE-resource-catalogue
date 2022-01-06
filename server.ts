@@ -2,6 +2,7 @@ import { Client } from "pg";
 import { config } from "dotenv";
 import express from "express";
 import cors from "cors";
+import path from "path";
 
 config(); //Read .env file lines as though they were env vars.
 
@@ -37,8 +38,9 @@ client.connect().then(() => {
   });
 
   //GET
-  // app.get("/", async (req, res) => {
-  // });
+  app.get("/", async (req, res) => {
+    res.sendFile(path.join(__dirname + "/index.html"));
+  });
 
   // GET /users
   app.get("/users", async (req, res) => {
