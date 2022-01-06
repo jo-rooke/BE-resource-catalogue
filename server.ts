@@ -208,7 +208,6 @@ client.connect().then(() => {
       description,
       content_type,
       week_no,
-      creation_date,
       recommender_id,
       rec_status,
       rec_message,
