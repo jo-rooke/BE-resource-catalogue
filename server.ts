@@ -2,7 +2,7 @@ import { Client } from "pg";
 import { config } from "dotenv";
 import express from "express";
 import cors from "cors";
-
+import IPostResourceResponse from "./IPostResourceResponse";
 config(); //Read .env file lines as though they were env vars.
 
 //Call this script with the environment variable LOCAL set if you want to connect to a local db (i.e. without SSL)
@@ -209,6 +209,7 @@ client.connect().then(() => {
       recommender_id,
       rec_status,
       rec_message,
+      tags,
     } = req.body;
     const queryResults = await client.query(
       "select * from resources where url = $1",
@@ -231,9 +232,17 @@ client.connect().then(() => {
           rec_message,
         ]
       );
+      const result: IPostResourceResponse[] = resourceAdd.rows;
+      for (let tagId of tags) {
+        await client.query(
+          "insert into tags (resource_id, tag_id) values ($1,$2) returning *",
+          [result[0].id, tagId]
+        );
+      }
       res.status(200).json({
         status: "success",
-        data: resourceAdd.rows,
+        data: result,
+        tags: tags,
       });
     } else {
       res.status(405).json({
