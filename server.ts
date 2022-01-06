@@ -61,16 +61,16 @@ client.connect().then(() => {
         "select resources.id, resources.resource_name, resources.author_name from to_study_list join resources on to_study_list.resource_id = resources.id where to_study_list.user_id = $1";
       const dbres1 = await client.query(query1, [userId]);
       const query2 =
-        "select to_study_list.resource_id, tag_names.name from to_study_list join tags on to_study_list.resource_id = tags.resource_id join tag_names on tags.tag_id = tag_names.id where to_study_list.user_id = $1";
+        "select to_study_list.resource_id, tag_names.id, tag_names.name from to_study_list join tags on to_study_list.resource_id = tags.resource_id join tag_names on tags.tag_id = tag_names.id where to_study_list.user_id = $1";
       const dbres2 = await client.query(query2, [userId]);
       for (const resource of dbres1.rows) {
-        const tags = [];
+        const tagsArr = [];
         for (const tag of dbres2.rows) {
           if (resource.id === tag.resource_id) {
-            tags.push(tag.name);
+            tagsArr.push({ id: tag.id, name: tag.name });
           }
         }
-        resource.tags = tags;
+        resource.tags = tagsArr;
       }
       res.status(200).json({
         status: "success",
@@ -146,7 +146,7 @@ client.connect().then(() => {
     const dbresTwo = await client.query(feedbackQuery);
 
     const tagsQuery =
-      "select tags.resource_id, tag_names.name from tags join tag_names on tags.tag_id = tag_names.id";
+      "select tags.resource_id, tag_names.id, tag_names.name from tags join tag_names on tags.tag_id = tag_names.id";
     const dbresThree = await client.query(tagsQuery);
 
     for (const resource of dbres.rows) {
@@ -159,7 +159,7 @@ client.connect().then(() => {
       }
       for (const tag of dbresThree.rows) {
         if (resource.id === tag.resource_id) {
-          tags.push(tag.name);
+          tags.push({ id: tag.id, name: tag.name });
         }
       }
       resource.tags = tags;
@@ -185,7 +185,6 @@ client.connect().then(() => {
     const tagsQuery =
       "SELECT tags.tag_id AS id, tag_names.name FROM tags JOIN tag_names ON tags.tag_id = tag_names.id WHERE tags.resource_id = $1";
     const dbresThree = await client.query(tagsQuery, [resourceId]);
-    const tags = [];
     const likes = [];
     for (const feedback of dbresTwo.rows) {
       likes.push(feedback.liked);
