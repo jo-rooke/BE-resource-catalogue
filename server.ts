@@ -46,9 +46,7 @@ client.connect().then(() => {
     const userList = dbres.rows;
     res.status(200).json({
       status: "success",
-      data: {
-        userList: userList,
-      },
+      data: userList,
     });
   });
 
