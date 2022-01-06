@@ -228,7 +228,7 @@
         <a href="#deleteItemInStudyList"
           ><code
             ><span class="http-method">delete</span>
-            /to-study-list/{userId}</code
+            /to-study-list/{userId}/{resourceId}</code
           ></a
         >
       </li>
@@ -259,7 +259,7 @@
 
     <h1><a name="Comments">Comments</a></h1>
     <div class="method">
-      <a name="getComments" />
+      <a name="getComments"></a>
       <div class="method-path">
         <a class="up" href="#__Methods">Up</a>
         <pre
@@ -285,7 +285,9 @@
       <!-- field-items -->
 
       <h3 class="field-label">Return type</h3>
-      <div class="return-type">Object</div>
+      <div class="return-type">
+        <a href="#inline_response_200">inline_response_200</a>
+      </div>
 
       <!--Todo: process Response Object and its headers, schema, examples -->
 
@@ -294,11 +296,18 @@
         Content-Type: application/json
       </div>
       <pre class="example"><code>{
-  "bytes": [
-    123,
-    125
-  ],
-  "empty": false
+  "status" : "success",
+  "data" : [ {
+    "id" : 2,
+    "liked" : true,
+    "comment" : "Thanks for sharing!",
+    "name" : "Veta"
+  }, {
+    "id" : 1,
+    "liked" : true,
+    "comment" : "Oh wow that is nice!",
+    "name" : "Jo"
+  } ]
 }</code></pre>
 
       <h3 class="field-label">Produces</h3>
@@ -312,16 +321,16 @@
       <h3 class="field-label">Responses</h3>
       <h4 class="field-label">200</h4>
       OK
-      <a href="#Object">Object</a>
+      <a href="#inline_response_200">inline_response_200</a>
       <h4 class="field-label">404</h4>
       Not found
-      <a href="#Object">Object</a>
+      <a href="#inline_response_404">inline_response_404</a>
     </div>
     <!-- method -->
     <hr />
     <h1><a name="Resources">Resources</a></h1>
     <div class="method">
-      <a name="getResources" />
+      <a name="getResources"></a>
       <div class="method-path">
         <a class="up" href="#__Methods">Up</a>
         <pre
@@ -337,7 +346,9 @@
       <div class="method-notes"></div>
 
       <h3 class="field-label">Return type</h3>
-      <div class="return-type">Object</div>
+      <div class="return-type">
+        <a href="#inline_response_200_5">inline_response_200_5</a>
+      </div>
 
       <!--Todo: process Response Object and its headers, schema, examples -->
 
@@ -345,7 +356,32 @@
       <div class="example-data-content-type">
         Content-Type: application/json
       </div>
-      <pre class="example"><code>{}</code></pre>
+      <pre class="example"><code>{
+  "status" : "success",
+  "data" : [ {
+    "id" : 1,
+    "resource_name" : "Javascript tutorial",
+    "author_name" : "Codecademy",
+    "creation_date" : "2022-01-05T16:58:27.622Z",
+    "tags" : [ {
+      "id" : 4,
+      "name" : "Javascript"
+    } ],
+    "likes" : 9,
+    "dislikes" : 2
+  }, {
+    "id" : 2,
+    "resource_name" : "Typescript tutorial",
+    "author_name" : "Edabit",
+    "creation_date" : "2022-01-05T18:51:57.622Z",
+    "tags" : [ {
+      "id" : 5,
+      "name" : "Typescript"
+    } ],
+    "likes" : 5,
+    "dislikes" : 1
+  } ]
+}</code></pre>
 
       <h3 class="field-label">Produces</h3>
       This API call produces the following media types according to the
@@ -358,12 +394,12 @@
       <h3 class="field-label">Responses</h3>
       <h4 class="field-label">200</h4>
       OK
-      <a href="#Object">Object</a>
+      <a href="#inline_response_200_5">inline_response_200_5</a>
     </div>
     <!-- method -->
     <hr />
     <div class="method">
-      <a name="getSpecificResource" />
+      <a name="getSpecificResource"></a>
       <div class="method-path">
         <a class="up" href="#__Methods">Up</a>
         <pre
@@ -383,13 +419,16 @@
         <div class="param">resourceId (required)</div>
 
         <div class="param-desc">
-          <span class="param-type">Path Parameter</span> &mdash; Resource ID
+          <span class="param-type">Path Parameter</span> &mdash; ID of the
+          resource to find comments from
         </div>
       </div>
       <!-- field-items -->
 
       <h3 class="field-label">Return type</h3>
-      <div class="return-type">Object</div>
+      <div class="return-type">
+        <a href="#inline_response_200_7">inline_response_200_7</a>
+      </div>
 
       <!--Todo: process Response Object and its headers, schema, examples -->
 
@@ -397,7 +436,36 @@
       <div class="example-data-content-type">
         Content-Type: application/json
       </div>
-      <pre class="example"><code>{}</code></pre>
+      <pre class="example"><code>{
+  "status" : "success",
+  "data" : [ {
+    "id" : 1,
+    "resource_name" : "Test resource",
+    "author_name" : "Test author",
+    "url" : "https://test",
+    "description" : "Test description",
+    "content_type" : "article",
+    "week_no" : 6,
+    "creation_date" : "2022-01-05T13:50:59.225Z",
+    "recommender_id" : 6,
+    "rec_status" : "I have not read this resource but it looks promising",
+    "rec_message" : "HI test message",
+    "name" : "Jo",
+    "is_faculty" : false,
+    "tags" : [ {
+      "id" : 1,
+      "name" : "HTML"
+    }, {
+      "id" : 2,
+      "name" : "CSS"
+    }, {
+      "id" : 3,
+      "name" : "React"
+    } ],
+    "likes" : 2,
+    "dislikes" : 0
+  } ]
+}</code></pre>
 
       <h3 class="field-label">Produces</h3>
       This API call produces the following media types according to the
@@ -410,12 +478,12 @@
       <h3 class="field-label">Responses</h3>
       <h4 class="field-label">200</h4>
       OK
-      <a href="#Object">Object</a>
+      <a href="#inline_response_200_7">inline_response_200_7</a>
     </div>
     <!-- method -->
     <hr />
     <div class="method">
-      <a name="postResource" />
+      <a name="postResource"></a>
       <div class="method-path">
         <a class="up" href="#__Methods">Up</a>
         <pre
@@ -428,21 +496,32 @@
       </div>
       <div class="method-notes"></div>
 
+      <h3 class="field-label">Consumes</h3>
+      This API call consumes the following media types via the
+      <span class="header">Content-Type</span> request header:
+      <ul>
+        <li><code>application/json</code></li>
+      </ul>
+
       <h3 class="field-label">Request body</h3>
       <div class="field-items">
-        <div class="param">body (required)</div>
+        <div class="param">
+          body <a href="#resources_body">resources_body</a> (required)
+        </div>
 
         <div class="param-desc">
           <span class="param-type">Body Parameter</span> &mdash; A request body
           containing resource name, author name, url, description, content type,
-          week number, recommender's id, recommendation status, and
+          week number, recommender&#x27;s id, recommendation status, and
           recommendation message
         </div>
       </div>
       <!-- field-items -->
 
       <h3 class="field-label">Return type</h3>
-      <div class="return-type">Object</div>
+      <div class="return-type">
+        <a href="#inline_response_200_6">inline_response_200_6</a>
+      </div>
 
       <!--Todo: process Response Object and its headers, schema, examples -->
 
@@ -450,7 +529,26 @@
       <div class="example-data-content-type">
         Content-Type: application/json
       </div>
-      <pre class="example"><code>{}</code></pre>
+      <pre class="example"><code>{
+  "status" : "success",
+  "data" : [ {
+    "id" : 6,
+    "resource_name" : "JavaScript tutorial",
+    "author_name" : "CodeCademy",
+    "url" : "https://www.codecademy.com/learn/jo",
+    "description" : "a tutorial",
+    "content_type" : "interactive",
+    "week_no" : 1,
+    "creation_date" : "2022-01-06T12:43:27.491Z",
+    "recommender_id" : 6,
+    "rec_status" : "I haven't used this resource but it looks promising",
+    "rec_message" : "great stuff",
+    "tags" : [ {
+      "id" : 1,
+      "name" : "HTML"
+    } ]
+  } ]
+}</code></pre>
 
       <h3 class="field-label">Produces</h3>
       This API call produces the following media types according to the
@@ -463,16 +561,16 @@
       <h3 class="field-label">Responses</h3>
       <h4 class="field-label">200</h4>
       OK
-      <a href="#Object">Object</a>
+      <a href="#inline_response_200_6">inline_response_200_6</a>
       <h4 class="field-label">405</h4>
       Method not allowed
-      <a href="#Object">Object</a>
+      <a href="#inline_response_405_1">inline_response_405_1</a>
     </div>
     <!-- method -->
     <hr />
     <h1><a name="StudyList">StudyList</a></h1>
     <div class="method">
-      <a name="addItemToStudyList" />
+      <a name="addItemToStudyList"></a>
       <div class="method-path">
         <a class="up" href="#__Methods">Up</a>
         <pre
@@ -492,14 +590,25 @@
 
         <div class="param-desc">
           <span class="param-type">Path Parameter</span> &mdash; ID of user to
-          add to their study list
+          return their study list
         </div>
       </div>
       <!-- field-items -->
 
+      <h3 class="field-label">Consumes</h3>
+      This API call consumes the following media types via the
+      <span class="header">Content-Type</span> request header:
+      <ul>
+        <li><code>application/json</code></li>
+      </ul>
+
       <h3 class="field-label">Request body</h3>
       <div class="field-items">
-        <div class="param">body (required)</div>
+        <div class="param">
+          body
+          <a href="#tostudylist_userId_body">tostudylist_userId_body</a>
+          (required)
+        </div>
 
         <div class="param-desc">
           <span class="param-type">Body Parameter</span> &mdash; adding a new
@@ -509,7 +618,9 @@
       <!-- field-items -->
 
       <h3 class="field-label">Return type</h3>
-      <div class="return-type">Object</div>
+      <div class="return-type">
+        <a href="#inline_response_201">inline_response_201</a>
+      </div>
 
       <!--Todo: process Response Object and its headers, schema, examples -->
 
@@ -517,7 +628,14 @@
       <div class="example-data-content-type">
         Content-Type: application/json
       </div>
-      <pre class="example"><code>{}</code></pre>
+      <pre class="example"><code>{
+  "status" : "success",
+  "data" : [ {
+    "id" : 1,
+    "user_id" : 3,
+    "resource_id" : 1
+  } ]
+}</code></pre>
 
       <h3 class="field-label">Produces</h3>
       This API call produces the following media types according to the
@@ -530,23 +648,23 @@
       <h3 class="field-label">Responses</h3>
       <h4 class="field-label">201</h4>
       Created
-      <a href="#Object">Object</a>
+      <a href="#inline_response_201">inline_response_201</a>
       <h4 class="field-label">405</h4>
-      Method Not Allowed
-      <a href="#Object">Object</a>
+      Method not allowed
+      <a href="#inline_response_405">inline_response_405</a>
     </div>
     <!-- method -->
     <hr />
     <div class="method">
-      <a name="deleteItemInStudyList" />
+      <a name="deleteItemInStudyList"></a>
       <div class="method-path">
         <a class="up" href="#__Methods">Up</a>
         <pre
           class="delete"
-        ><code class="huge"><span class="http-method">delete</span> /to-study-list/{userId}</code></pre>
+        ><code class="huge"><span class="http-method">delete</span> /to-study-list/{userId}/{resourceId}</code></pre>
       </div>
       <div class="method-summary">
-        delete an item from study list for an individual user (<span
+        Delete an item from study list for an individual user (<span
           class="nickname"
           >deleteItemInStudyList</span
         >)
@@ -559,24 +677,21 @@
 
         <div class="param-desc">
           <span class="param-type">Path Parameter</span> &mdash; ID of user to
-          delete item from their study list
+          delete an item from their study list
         </div>
-      </div>
-      <!-- field-items -->
-
-      <h3 class="field-label">Request body</h3>
-      <div class="field-items">
-        <div class="param">body (required)</div>
+        <div class="param">resourceId (required)</div>
 
         <div class="param-desc">
-          <span class="param-type">Body Parameter</span> &mdash; removing an
-          item to the specific users study list
+          <span class="param-type">Path Parameter</span> &mdash; ID of resource
+          to be deleted
         </div>
       </div>
       <!-- field-items -->
 
       <h3 class="field-label">Return type</h3>
-      <div class="return-type">Object</div>
+      <div class="return-type">
+        <a href="#inline_response_200_3">inline_response_200_3</a>
+      </div>
 
       <!--Todo: process Response Object and its headers, schema, examples -->
 
@@ -584,7 +699,14 @@
       <div class="example-data-content-type">
         Content-Type: application/json
       </div>
-      <pre class="example"><code>{}</code></pre>
+      <pre class="example"><code>{
+  "status" : "success",
+  "data" : [ {
+    "id" : 4,
+    "user_id" : 3,
+    "resource_id" : 1
+  } ]
+}</code></pre>
 
       <h3 class="field-label">Produces</h3>
       This API call produces the following media types according to the
@@ -597,15 +719,15 @@
       <h3 class="field-label">Responses</h3>
       <h4 class="field-label">200</h4>
       OK
-      <a href="#Object">Object</a>
+      <a href="#inline_response_200_3">inline_response_200_3</a>
       <h4 class="field-label">404</h4>
       Not Found
-      <a href="#Object">Object</a>
+      <a href="#inline_response_404_1">inline_response_404_1</a>
     </div>
     <!-- method -->
     <hr />
     <div class="method">
-      <a name="getStudyListForUser" />
+      <a name="getStudyListForUser"></a>
       <div class="method-path">
         <a class="up" href="#__Methods">Up</a>
         <pre
@@ -631,7 +753,9 @@
       <!-- field-items -->
 
       <h3 class="field-label">Return type</h3>
-      <div class="return-type">Object</div>
+      <div class="return-type">
+        <a href="#inline_response_200_2">inline_response_200_2</a>
+      </div>
 
       <!--Todo: process Response Object and its headers, schema, examples -->
 
@@ -639,7 +763,20 @@
       <div class="example-data-content-type">
         Content-Type: application/json
       </div>
-      <pre class="example"><code>{}</code></pre>
+      <pre class="example"><code>{
+  "status" : "success",
+  "data" : [ {
+    "id" : 2,
+    "resource_name" : "JavaScript tutorial",
+    "author_name" : "CodeCademy",
+    "tags" : [ ]
+  }, {
+    "id" : 1,
+    "resource_name" : "react tutorial",
+    "author_name" : "freeCodeCamp",
+    "tags" : [ "React", "TypeScript" ]
+  } ]
+}</code></pre>
 
       <h3 class="field-label">Produces</h3>
       This API call produces the following media types according to the
@@ -652,13 +789,13 @@
       <h3 class="field-label">Responses</h3>
       <h4 class="field-label">200</h4>
       OK
-      <a href="#Object">Object</a>
+      <a href="#inline_response_200_2">inline_response_200_2</a>
     </div>
     <!-- method -->
     <hr />
     <h1><a name="Tag">Tag</a></h1>
     <div class="method">
-      <a name="getTags" />
+      <a name="getTags"></a>
       <div class="method-path">
         <a class="up" href="#__Methods">Up</a>
         <pre
@@ -671,7 +808,9 @@
       <div class="method-notes"></div>
 
       <h3 class="field-label">Return type</h3>
-      <div class="return-type">Object</div>
+      <div class="return-type">
+        <a href="#inline_response_200_4">inline_response_200_4</a>
+      </div>
 
       <!--Todo: process Response Object and its headers, schema, examples -->
 
@@ -679,7 +818,19 @@
       <div class="example-data-content-type">
         Content-Type: application/json
       </div>
-      <pre class="example"><code>{}</code></pre>
+      <pre class="example"><code>{
+  "status" : "success",
+  "data" : [ {
+    "id" : 1,
+    "name" : "HTML"
+  }, {
+    "id" : 2,
+    "name" : "CSS"
+  }, {
+    "id" : 3,
+    "name" : "React"
+  } ]
+}</code></pre>
 
       <h3 class="field-label">Produces</h3>
       This API call produces the following media types according to the
@@ -692,13 +843,13 @@
       <h3 class="field-label">Responses</h3>
       <h4 class="field-label">200</h4>
       OK
-      <a href="#Object">Object</a>
+      <a href="#inline_response_200_4">inline_response_200_4</a>
     </div>
     <!-- method -->
     <hr />
     <h1><a name="Users">Users</a></h1>
     <div class="method">
-      <a name="getUsers" />
+      <a name="getUsers"></a>
       <div class="method-path">
         <a class="up" href="#__Methods">Up</a>
         <pre
@@ -711,7 +862,9 @@
       <div class="method-notes">List of users that can add resources</div>
 
       <h3 class="field-label">Return type</h3>
-      <div class="return-type">Object</div>
+      <div class="return-type">
+        <a href="#inline_response_200_1">inline_response_200_1</a>
+      </div>
 
       <!--Todo: process Response Object and its headers, schema, examples -->
 
@@ -719,7 +872,26 @@
       <div class="example-data-content-type">
         Content-Type: application/json
       </div>
-      <pre class="example"><code>{}</code></pre>
+      <pre class="example"><code>{
+  "status" : "success",
+  "data" : [ {
+    "id" : 1,
+    "name" : "Richard",
+    "is_faculty" : true
+  }, {
+    "id" : 2,
+    "name" : "Neill",
+    "is_faculty" : true
+  }, {
+    "id" : 3,
+    "name" : "Linus",
+    "is_faculty" : false
+  }, {
+    "id" : 4,
+    "name" : "Veta",
+    "is_faculty" : false
+  } ]
+}</code></pre>
 
       <h3 class="field-label">Produces</h3>
       This API call produces the following media types according to the
@@ -732,9 +904,360 @@
       <h3 class="field-label">Responses</h3>
       <h4 class="field-label">200</h4>
       OK
-      <a href="#Object">Object</a>
+      <a href="#inline_response_200_1">inline_response_200_1</a>
     </div>
     <!-- method -->
     <hr />
+
+    <h2><a name="__Models">Models</a></h2>
+    [ Jump to <a href="#__Methods">Methods</a> ]
+
+    <h3>Table of Contents</h3>
+    <ol>
+      <li>
+        <a href="#inline_response_200"><code>inline_response_200</code></a>
+      </li>
+      <li>
+        <a href="#inline_response_200_1"><code>inline_response_200_1</code></a>
+      </li>
+      <li>
+        <a href="#inline_response_200_2"><code>inline_response_200_2</code></a>
+      </li>
+      <li>
+        <a href="#inline_response_200_3"><code>inline_response_200_3</code></a>
+      </li>
+      <li>
+        <a href="#inline_response_200_4"><code>inline_response_200_4</code></a>
+      </li>
+      <li>
+        <a href="#inline_response_200_5"><code>inline_response_200_5</code></a>
+      </li>
+      <li>
+        <a href="#inline_response_200_6"><code>inline_response_200_6</code></a>
+      </li>
+      <li>
+        <a href="#inline_response_200_7"><code>inline_response_200_7</code></a>
+      </li>
+      <li>
+        <a href="#inline_response_201"><code>inline_response_201</code></a>
+      </li>
+      <li>
+        <a href="#inline_response_404"><code>inline_response_404</code></a>
+      </li>
+      <li>
+        <a href="#inline_response_404_1"><code>inline_response_404_1</code></a>
+      </li>
+      <li>
+        <a href="#inline_response_405"><code>inline_response_405</code></a>
+      </li>
+      <li>
+        <a href="#inline_response_405_1"><code>inline_response_405_1</code></a>
+      </li>
+      <li>
+        <a href="#resources_body"><code>resources_body</code></a>
+      </li>
+      <li>
+        <a href="#tostudylist_userId_body"
+          ><code>tostudylist_userId_body</code></a
+        >
+      </li>
+    </ol>
+
+    <div class="model">
+      <h3>
+        <a name="inline_response_200"><code>inline_response_200</code></a>
+        <a class="up" href="#__Models">Up</a>
+      </h3>
+
+      <div class="field-items">
+        <div class="param">status</div>
+        <div class="param-desc">
+          <span class="param-type"><a href="#string">String</a></span>
+        </div>
+        <div class="param">data</div>
+        <div class="param-desc">
+          <span class="param-type"><a href="#object">array[Object]</a></span>
+        </div>
+      </div>
+      <!-- field-items -->
+    </div>
+    <div class="model">
+      <h3>
+        <a name="inline_response_200_1"><code>inline_response_200_1</code></a>
+        <a class="up" href="#__Models">Up</a>
+      </h3>
+
+      <div class="field-items">
+        <div class="param">status</div>
+        <div class="param-desc">
+          <span class="param-type"><a href="#string">String</a></span>
+        </div>
+        <div class="param">data</div>
+        <div class="param-desc">
+          <span class="param-type"><a href="#object">array[Object]</a></span>
+        </div>
+      </div>
+      <!-- field-items -->
+    </div>
+    <div class="model">
+      <h3>
+        <a name="inline_response_200_2"><code>inline_response_200_2</code></a>
+        <a class="up" href="#__Models">Up</a>
+      </h3>
+
+      <div class="field-items">
+        <div class="param">status</div>
+        <div class="param-desc">
+          <span class="param-type"><a href="#string">String</a></span>
+        </div>
+        <div class="param">data</div>
+        <div class="param-desc">
+          <span class="param-type"><a href="#object">array[Object]</a></span>
+        </div>
+      </div>
+      <!-- field-items -->
+    </div>
+    <div class="model">
+      <h3>
+        <a name="inline_response_200_3"><code>inline_response_200_3</code></a>
+        <a class="up" href="#__Models">Up</a>
+      </h3>
+
+      <div class="field-items">
+        <div class="param">status</div>
+        <div class="param-desc">
+          <span class="param-type"><a href="#string">String</a></span>
+        </div>
+        <div class="param">data</div>
+        <div class="param-desc">
+          <span class="param-type"><a href="#object">array[Object]</a></span>
+        </div>
+      </div>
+      <!-- field-items -->
+    </div>
+    <div class="model">
+      <h3>
+        <a name="inline_response_200_4"><code>inline_response_200_4</code></a>
+        <a class="up" href="#__Models">Up</a>
+      </h3>
+
+      <div class="field-items">
+        <div class="param">status</div>
+        <div class="param-desc">
+          <span class="param-type"><a href="#string">String</a></span>
+        </div>
+        <div class="param">data</div>
+        <div class="param-desc">
+          <span class="param-type"><a href="#object">array[Object]</a></span>
+        </div>
+      </div>
+      <!-- field-items -->
+    </div>
+    <div class="model">
+      <h3>
+        <a name="inline_response_200_5"><code>inline_response_200_5</code></a>
+        <a class="up" href="#__Models">Up</a>
+      </h3>
+
+      <div class="field-items">
+        <div class="param">status</div>
+        <div class="param-desc">
+          <span class="param-type"><a href="#string">String</a></span>
+        </div>
+        <div class="param">data</div>
+        <div class="param-desc">
+          <span class="param-type"><a href="#object">array[Object]</a></span>
+        </div>
+      </div>
+      <!-- field-items -->
+    </div>
+    <div class="model">
+      <h3>
+        <a name="inline_response_200_6"><code>inline_response_200_6</code></a>
+        <a class="up" href="#__Models">Up</a>
+      </h3>
+
+      <div class="field-items">
+        <div class="param">status</div>
+        <div class="param-desc">
+          <span class="param-type"><a href="#string">String</a></span>
+        </div>
+        <div class="param">data</div>
+        <div class="param-desc">
+          <span class="param-type"><a href="#object">array[Object]</a></span>
+        </div>
+      </div>
+      <!-- field-items -->
+    </div>
+    <div class="model">
+      <h3>
+        <a name="inline_response_200_7"><code>inline_response_200_7</code></a>
+        <a class="up" href="#__Models">Up</a>
+      </h3>
+
+      <div class="field-items">
+        <div class="param">status</div>
+        <div class="param-desc">
+          <span class="param-type"><a href="#string">String</a></span>
+        </div>
+        <div class="param">data</div>
+        <div class="param-desc">
+          <span class="param-type"><a href="#object">array[Object]</a></span>
+        </div>
+      </div>
+      <!-- field-items -->
+    </div>
+    <div class="model">
+      <h3>
+        <a name="inline_response_201"><code>inline_response_201</code></a>
+        <a class="up" href="#__Models">Up</a>
+      </h3>
+
+      <div class="field-items">
+        <div class="param">status</div>
+        <div class="param-desc">
+          <span class="param-type"><a href="#string">String</a></span>
+        </div>
+        <div class="param">data</div>
+        <div class="param-desc">
+          <span class="param-type"><a href="#object">array[Object]</a></span>
+        </div>
+      </div>
+      <!-- field-items -->
+    </div>
+    <div class="model">
+      <h3>
+        <a name="inline_response_404"><code>inline_response_404</code></a>
+        <a class="up" href="#__Models">Up</a>
+      </h3>
+
+      <div class="field-items">
+        <div class="param">status</div>
+        <div class="param-desc">
+          <span class="param-type"><a href="#string">String</a></span>
+        </div>
+        <div class="param">message</div>
+        <div class="param-desc">
+          <span class="param-type"><a href="#string">String</a></span>
+        </div>
+      </div>
+      <!-- field-items -->
+    </div>
+    <div class="model">
+      <h3>
+        <a name="inline_response_404_1"><code>inline_response_404_1</code></a>
+        <a class="up" href="#__Models">Up</a>
+      </h3>
+
+      <div class="field-items">
+        <div class="param">status</div>
+        <div class="param-desc">
+          <span class="param-type"><a href="#string">String</a></span>
+        </div>
+        <div class="param">message</div>
+        <div class="param-desc">
+          <span class="param-type"><a href="#string">String</a></span>
+        </div>
+      </div>
+      <!-- field-items -->
+    </div>
+    <div class="model">
+      <h3>
+        <a name="inline_response_405"><code>inline_response_405</code></a>
+        <a class="up" href="#__Models">Up</a>
+      </h3>
+
+      <div class="field-items">
+        <div class="param">status</div>
+        <div class="param-desc">
+          <span class="param-type"><a href="#string">String</a></span>
+        </div>
+        <div class="param">message</div>
+        <div class="param-desc">
+          <span class="param-type"><a href="#string">String</a></span>
+        </div>
+      </div>
+      <!-- field-items -->
+    </div>
+    <div class="model">
+      <h3>
+        <a name="inline_response_405_1"><code>inline_response_405_1</code></a>
+        <a class="up" href="#__Models">Up</a>
+      </h3>
+
+      <div class="field-items">
+        <div class="param">status</div>
+        <div class="param-desc">
+          <span class="param-type"><a href="#string">String</a></span>
+        </div>
+        <div class="param">message</div>
+        <div class="param-desc">
+          <span class="param-type"><a href="#string">String</a></span>
+        </div>
+      </div>
+      <!-- field-items -->
+    </div>
+    <div class="model">
+      <h3>
+        <a name="resources_body"><code>resources_body</code></a>
+        <a class="up" href="#__Models">Up</a>
+      </h3>
+
+      <div class="field-items">
+        <div class="param">resource_name</div>
+        <div class="param-desc">
+          <span class="param-type"><a href="#string">String</a></span>
+        </div>
+        <div class="param">author_name</div>
+        <div class="param-desc">
+          <span class="param-type"><a href="#string">String</a></span>
+        </div>
+        <div class="param">url</div>
+        <div class="param-desc">
+          <span class="param-type"><a href="#string">String</a></span>
+        </div>
+        <div class="param">description</div>
+        <div class="param-desc">
+          <span class="param-type"><a href="#string">String</a></span>
+        </div>
+        <div class="param">content_type</div>
+        <div class="param-desc">
+          <span class="param-type"><a href="#string">String</a></span>
+        </div>
+        <div class="param">week_no</div>
+        <div class="param-desc">
+          <span class="param-type"><a href="#integer">Integer</a></span>
+        </div>
+        <div class="param">recommender_id</div>
+        <div class="param-desc">
+          <span class="param-type"><a href="#integer">Integer</a></span>
+        </div>
+        <div class="param">rec_status</div>
+        <div class="param-desc">
+          <span class="param-type"><a href="#string">String</a></span>
+        </div>
+        <div class="param">rec_message</div>
+        <div class="param-desc">
+          <span class="param-type"><a href="#string">String</a></span>
+        </div>
+      </div>
+      <!-- field-items -->
+    </div>
+    <div class="model">
+      <h3>
+        <a name="tostudylist_userId_body"
+          ><code>tostudylist_userId_body</code></a
+        >
+        <a class="up" href="#__Models">Up</a>
+      </h3>
+
+      <div class="field-items">
+        <div class="param">resource_id</div>
+        <div class="param-desc">
+          <span class="param-type"><a href="#integer">Integer</a></span>
+        </div>
+      </div>
+      <!-- field-items -->
+    </div>
   </body>
 </html>
