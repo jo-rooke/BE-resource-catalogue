@@ -19,6 +19,76 @@ tags:
 
 paths:
   /comments/{resourceId}:
+    post:
+      tags:
+        - comments
+      summary: add a comment to a specific resource
+      operationId: postComments
+      parameters:
+        - in: path
+          name: resourceId
+          description: ID of the resource to add comment to
+          required: true
+          schema:
+            type: "integer"
+            minimum: 1
+      responses:
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                required:
+                  - status
+                  - message
+                type: object
+                properties:
+                  status:
+                    type: string
+                  message:
+                    type: string
+                example:
+                  status: failed
+                  message: resource not found
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                required:
+                  - status
+                  - data
+                type: object
+                properties:
+                  status:
+                    type: string
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          minimum: 1
+                        user_id:
+                          type: integer
+                          minimum: 1
+                        resource_id:
+                          type: integer
+                          minimum: 1
+                        liked:
+                          type: boolean
+                        comment:
+                          type: string
+                example:
+                  status: success
+                  data:
+                    - id: 2
+                      user_id: 1
+                      resource_id: 1
+                      liked: true
+                      comment: Thanks for sharing!
+
     get:
       tags:
         - comments
@@ -130,6 +200,50 @@ paths:
                         { "id": 4, "name": "Veta", "is_faculty": false },
                       ],
                   }
+        "404":
+          description: "When the table 'users' is not found"
+          content:
+            application/json:
+              schema:
+                required:
+                  - status
+                  - message
+                type: object
+                properties:
+                  status:
+                    type: string
+                  message:
+                    type: object
+                    properties:
+                      length:
+                        type: integer
+                        minimum: 105
+                        maximum: 105
+                      name:
+                        type: string
+                      severity:
+                        type: string
+                      code:
+                        type: string
+                      position:
+                        type: string
+                      file:
+                        type: string
+                      line:
+                        type: string
+                      routine:
+                        type: string
+                example:
+                  status: failed
+                  message:
+                    length: 105
+                    name: error
+                    severity: ERROR
+                    code: 42P01
+                    position: "15"
+                    file: parse_relation.c
+                    line: "1180"
+                    routine: parserOpenTable
 
   /to-study-list/{userId}:
     get:
@@ -174,7 +288,14 @@ paths:
                         tags:
                           type: array
                           items:
-                            type: string
+                            type: object
+                            properties:
+                              id:
+                                type: integer
+                                minimum: 1
+                              name:
+                                type: string
+
                 example:
                   {
                     "status": "success",
@@ -184,16 +305,42 @@ paths:
                           "id": 2,
                           "resource_name": "JavaScript tutorial",
                           "author_name": "CodeCademy",
-                          "tags": [],
+                          "tags":
+                            [
+                              { id: 3, name: "Javascript" },
+                              { id: 4, name: "HTML" },
+                            ],
                         },
                         {
                           "id": 1,
                           "resource_name": "react tutorial",
                           "author_name": "freeCodeCamp",
-                          "tags": ["React", "TypeScript"],
+                          "tags":
+                            [
+                              { id: 1, name: "React" },
+                              { id: 2, name: "TypeScript" },
+                            ],
                         },
                       ],
                   }
+
+        "404":
+          description: "When the user ID is not found"
+          content:
+            application/json:
+              schema:
+                required:
+                  - status
+                  - message
+                type: object
+                properties:
+                  status:
+                    type: string
+                  message:
+                    type: string
+                example:
+                  status: failed
+                  message: User ID 100 does not exist.
 
     post:
       tags:
@@ -252,7 +399,7 @@ paths:
                     "data": [{ "id": 1, "user_id": 3, "resource_id": 1 }],
                   }
         "405":
-          description: "Method not allowed"
+          description: "When the resource already exists in the user's to-study list"
           content:
             application/json:
               schema:
@@ -271,6 +418,23 @@ paths:
                     "status": "failed",
                     "message": "Resource is already in the to-study list.",
                   }
+        "404":
+          description: "When the user ID is not found"
+          content:
+            application/json:
+              schema:
+                required:
+                  - status
+                  - message
+                type: object
+                properties:
+                  status:
+                    type: string
+                  message:
+                    type: string
+                example:
+                  status: failed
+                  message: User ID 100 does not exist.
   /to-study-list/{userId}/{resourceId}:
     delete:
       tags:
@@ -335,8 +499,8 @@ paths:
                     "status": "success",
                     "data": [{ "id": 4, "user_id": 3, "resource_id": 1 }],
                   }
-        "404":
-          description: "Not Found"
+        "405":
+          description: "When the resource ID does not exist in the user's to-study list"
           content:
             application/json:
               schema:
@@ -351,6 +515,23 @@ paths:
                     type: string
                 example:
                   { "status": "failed", "message": "Resource not found." }
+        "404":
+          description: "When the user ID is not found"
+          content:
+            application/json:
+              schema:
+                required:
+                  - status
+                  - message
+                type: object
+                properties:
+                  status:
+                    type: string
+                  message:
+                    type: string
+                example:
+                  status: failed
+                  message: User ID 100 does not exist.
   /tags:
     get:
       tags:
@@ -388,6 +569,50 @@ paths:
                       { id: 2, name: CSS },
                       { id: 3, name: React },
                     ]
+        "404":
+          description: "When the table 'tags' is not found"
+          content:
+            application/json:
+              schema:
+                required:
+                  - status
+                  - message
+                type: object
+                properties:
+                  status:
+                    type: string
+                  message:
+                    type: object
+                    properties:
+                      length:
+                        type: integer
+                        minimum: 105
+                        maximum: 105
+                      name:
+                        type: string
+                      severity:
+                        type: string
+                      code:
+                        type: string
+                      position:
+                        type: string
+                      file:
+                        type: string
+                      line:
+                        type: string
+                      routine:
+                        type: string
+                example:
+                  status: failed
+                  message:
+                    length: 105
+                    name: error
+                    severity: ERROR
+                    code: 42P01
+                    position: "15"
+                    file: parse_relation.c
+                    line: "1180"
+                    routine: parserOpenTable
   /resources:
     get:
       tags:
