@@ -138,19 +138,30 @@ client.connect().then(() => {
     "/to-study-list/:userId/:resourceId",
     async (req, res) => {
       const { userId, resourceId } = req.params;
-      const query =
-        "DELETE FROM to_study_list WHERE user_id = $1 AND resource_id = $2 RETURNING *";
-      const dbres = await client.query(query, [userId, resourceId]);
+      const query = "SELECT * FROM users WHERE id = $1";
+      const dbres = await client.query(query, [userId]);
       if (dbres.rowCount === 0) {
+        // Checks if user ID exists
         res.status(404).json({
           status: "failed",
-          message: "Resource not found.",
+          message: `User ID ${userId} does not exist.`,
         });
       } else {
-        res.status(200).json({
-          status: "success",
-          data: dbres.rows,
-        });
+        const query =
+          "DELETE FROM to_study_list WHERE user_id = $1 AND resource_id = $2 RETURNING *";
+        const dbres = await client.query(query, [userId, resourceId]);
+        if (dbres.rowCount === 0) {
+          // Checks if user actually has the resource in their to-study list
+          res.status(404).json({
+            status: "failed",
+            message: "Resource not found.",
+          });
+        } else {
+          res.status(200).json({
+            status: "success",
+            data: dbres.rows,
+          });
+        }
       }
     }
   );
