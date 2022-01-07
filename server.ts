@@ -136,12 +136,19 @@ client.connect().then(() => {
   );
 
   app.get("/tags", async (req, res) => {
-    const text = "select * from tag_names";
-    const dbres = await client.query(text);
-    res.status(200).json({
-      status: "success",
-      data: dbres.rows,
-    });
+    try {
+      const text = "select * from tag_names";
+      const dbres = await client.query(text);
+      res.status(200).json({
+        status: "success",
+        data: dbres.rows,
+      });
+    } catch (error) {
+      res.status(404).json({
+        status: "failed",
+        message: error,
+      });
+    }
   });
 
   app.get("/resources", async (req, res) => {
