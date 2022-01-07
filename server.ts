@@ -133,12 +133,11 @@ client.connect().then(() => {
     }
   );
 
-  // DELETE /to-study-list/:userId
-  app.delete<{ userId: number }, {}, { resourceId: number }>(
-    "/to-study-list/:userId",
+  // DELETE /to-study-list/:userId/:resourceId
+  app.delete<{ userId: number; resourceId: number }, {}, {}>(
+    "/to-study-list/:userId/:resourceId",
     async (req, res) => {
-      const userId = req.params.userId;
-      const { resourceId } = req.body;
+      const { userId, resourceId } = req.params;
       const query =
         "DELETE FROM to_study_list WHERE user_id = $1 AND resource_id = $2 RETURNING *";
       const dbres = await client.query(query, [userId, resourceId]);
