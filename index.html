@@ -1,0 +1,1263 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Resource Catalogue</title>
+    <style type="text/css">
+      body {
+        font-family: Trebuchet MS, sans-serif;
+        font-size: 15px;
+        color: #444;
+        margin-right: 24px;
+      }
+
+      h1 {
+        font-size: 25px;
+      }
+      h2 {
+        font-size: 20px;
+      }
+      h3 {
+        font-size: 16px;
+        font-weight: bold;
+      }
+      hr {
+        height: 1px;
+        border: 0;
+        color: #ddd;
+        background-color: #ddd;
+      }
+
+      .app-desc {
+        clear: both;
+        margin-left: 20px;
+      }
+      .param-name {
+        width: 100%;
+      }
+      .license-info {
+        margin-left: 20px;
+      }
+
+      .license-url {
+        margin-left: 20px;
+      }
+
+      .model {
+        margin: 0 0 0px 20px;
+      }
+
+      .method {
+        margin-left: 20px;
+      }
+
+      .method-notes {
+        margin: 10px 0 20px 0;
+        font-size: 90%;
+        color: #555;
+      }
+
+      pre {
+        padding: 10px;
+        margin-bottom: 2px;
+      }
+
+      .http-method {
+        text-transform: uppercase;
+      }
+
+      pre.get {
+        background-color: #0f6ab4;
+      }
+
+      pre.post {
+        background-color: #10a54a;
+      }
+
+      pre.put {
+        background-color: #c5862b;
+      }
+
+      pre.delete {
+        background-color: #a41e22;
+      }
+
+      .huge {
+        color: #fff;
+      }
+
+      pre.example {
+        background-color: #f3f3f3;
+        padding: 10px;
+        border: 1px solid #ddd;
+      }
+
+      code {
+        white-space: pre;
+      }
+
+      .nickname {
+        font-weight: bold;
+      }
+
+      .method-path {
+        font-size: 1.5em;
+        background-color: #0f6ab4;
+      }
+
+      .up {
+        float: right;
+      }
+
+      .parameter {
+        width: 500px;
+      }
+
+      .param {
+        width: 500px;
+        padding: 10px 0 0 20px;
+        font-weight: bold;
+      }
+
+      .param-desc {
+        width: 700px;
+        padding: 0 0 0 20px;
+        color: #777;
+      }
+
+      .param-type {
+        font-style: italic;
+      }
+
+      .param-enum-header {
+        width: 700px;
+        padding: 0 0 0 60px;
+        color: #777;
+        font-weight: bold;
+      }
+
+      .param-enum {
+        width: 700px;
+        padding: 0 0 0 80px;
+        color: #777;
+        font-style: italic;
+      }
+
+      .field-label {
+        padding: 0;
+        margin: 0;
+        clear: both;
+      }
+
+      .field-items {
+        padding: 0 0 15px 0;
+        margin-bottom: 15px;
+      }
+
+      .return-type {
+        clear: both;
+        padding-bottom: 10px;
+      }
+
+      .param-header {
+        font-weight: bold;
+      }
+
+      .method-tags {
+        text-align: right;
+      }
+
+      .method-tag {
+        background: none repeat scroll 0% 0% #24a600;
+        border-radius: 3px;
+        padding: 2px 10px;
+        margin: 2px;
+        color: #fff;
+        display: inline-block;
+        text-decoration: none;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Resource Catalogue</h1>
+    <div class="app-desc">
+      API documentation for team C3C5's resource catalogue
+    </div>
+
+    <h3>Table of Contents</h3>
+    <div class="method-summary"></div>
+    <h4><a href="#Comments">Comments</a></h4>
+    <ul>
+      <li>
+        <a href="#getComments"
+          ><code
+            ><span class="http-method">get</span> /comments/{resourceId}</code
+          ></a
+        >
+      </li>
+    </ul>
+    <h4><a href="#Resources">Resources</a></h4>
+    <ul>
+      <li>
+        <a href="#getResources"
+          ><code><span class="http-method">get</span> /resources</code></a
+        >
+      </li>
+      <li>
+        <a href="#getSpecificResource"
+          ><code
+            ><span class="http-method">get</span> /resources/{resourceId}</code
+          ></a
+        >
+      </li>
+      <li>
+        <a href="#postResource"
+          ><code><span class="http-method">post</span> /resources</code></a
+        >
+      </li>
+    </ul>
+    <h4><a href="#StudyList">StudyList</a></h4>
+    <ul>
+      <li>
+        <a href="#addItemToStudyList"
+          ><code
+            ><span class="http-method">post</span> /to-study-list/{userId}</code
+          ></a
+        >
+      </li>
+      <li>
+        <a href="#deleteItemInStudyList"
+          ><code
+            ><span class="http-method">delete</span>
+            /to-study-list/{userId}/{resourceId}</code
+          ></a
+        >
+      </li>
+      <li>
+        <a href="#getStudyListForUser"
+          ><code
+            ><span class="http-method">get</span> /to-study-list/{userId}</code
+          ></a
+        >
+      </li>
+    </ul>
+    <h4><a href="#Tag">Tag</a></h4>
+    <ul>
+      <li>
+        <a href="#getTags"
+          ><code><span class="http-method">get</span> /tags</code></a
+        >
+      </li>
+    </ul>
+    <h4><a href="#Users">Users</a></h4>
+    <ul>
+      <li>
+        <a href="#getUsers"
+          ><code><span class="http-method">get</span> /users</code></a
+        >
+      </li>
+    </ul>
+
+    <h1><a name="Comments">Comments</a></h1>
+    <div class="method">
+      <a name="getComments"></a>
+      <div class="method-path">
+        <a class="up" href="#__Methods">Up</a>
+        <pre
+          class="get"
+        ><code class="huge"><span class="http-method">get</span> /comments/{resourceId}</code></pre>
+      </div>
+      <div class="method-summary">
+        return all comments on a given resource (<span class="nickname"
+          >getComments</span
+        >)
+      </div>
+      <div class="method-notes"></div>
+
+      <h3 class="field-label">Path parameters</h3>
+      <div class="field-items">
+        <div class="param">resourceId (required)</div>
+
+        <div class="param-desc">
+          <span class="param-type">Path Parameter</span> &mdash; ID of the
+          resource to find comments from
+        </div>
+      </div>
+      <!-- field-items -->
+
+      <h3 class="field-label">Return type</h3>
+      <div class="return-type">
+        <a href="#inline_response_200">inline_response_200</a>
+      </div>
+
+      <!--Todo: process Response Object and its headers, schema, examples -->
+
+      <h3 class="field-label">Example data</h3>
+      <div class="example-data-content-type">
+        Content-Type: application/json
+      </div>
+      <pre class="example"><code>{
+  "status" : "success",
+  "data" : [ {
+    "id" : 2,
+    "liked" : true,
+    "comment" : "Thanks for sharing!",
+    "name" : "Veta"
+  }, {
+    "id" : 1,
+    "liked" : true,
+    "comment" : "Oh wow that is nice!",
+    "name" : "Jo"
+  } ]
+}</code></pre>
+
+      <h3 class="field-label">Produces</h3>
+      This API call produces the following media types according to the
+      <span class="header">Accept</span> request header; the media type will be
+      conveyed by the <span class="header">Content-Type</span> response header.
+      <ul>
+        <li><code>application/json</code></li>
+      </ul>
+
+      <h3 class="field-label">Responses</h3>
+      <h4 class="field-label">200</h4>
+      OK
+      <a href="#inline_response_200">inline_response_200</a>
+      <h4 class="field-label">404</h4>
+      Not found
+      <a href="#inline_response_404">inline_response_404</a>
+    </div>
+    <!-- method -->
+    <hr />
+    <h1><a name="Resources">Resources</a></h1>
+    <div class="method">
+      <a name="getResources"></a>
+      <div class="method-path">
+        <a class="up" href="#__Methods">Up</a>
+        <pre
+          class="get"
+        ><code class="huge"><span class="http-method">get</span> /resources</code></pre>
+      </div>
+      <div class="method-summary">
+        Get all the resources in the database with their tags and likes (<span
+          class="nickname"
+          >getResources</span
+        >)
+      </div>
+      <div class="method-notes"></div>
+
+      <h3 class="field-label">Return type</h3>
+      <div class="return-type">
+        <a href="#inline_response_200_5">inline_response_200_5</a>
+      </div>
+
+      <!--Todo: process Response Object and its headers, schema, examples -->
+
+      <h3 class="field-label">Example data</h3>
+      <div class="example-data-content-type">
+        Content-Type: application/json
+      </div>
+      <pre class="example"><code>{
+  "status" : "success",
+  "data" : [ {
+    "id" : 1,
+    "resource_name" : "Javascript tutorial",
+    "author_name" : "Codecademy",
+    "creation_date" : "2022-01-05T16:58:27.622Z",
+    "tags" : [ {
+      "id" : 4,
+      "name" : "Javascript"
+    } ],
+    "likes" : 9,
+    "dislikes" : 2
+  }, {
+    "id" : 2,
+    "resource_name" : "Typescript tutorial",
+    "author_name" : "Edabit",
+    "creation_date" : "2022-01-05T18:51:57.622Z",
+    "tags" : [ {
+      "id" : 5,
+      "name" : "Typescript"
+    } ],
+    "likes" : 5,
+    "dislikes" : 1
+  } ]
+}</code></pre>
+
+      <h3 class="field-label">Produces</h3>
+      This API call produces the following media types according to the
+      <span class="header">Accept</span> request header; the media type will be
+      conveyed by the <span class="header">Content-Type</span> response header.
+      <ul>
+        <li><code>application/json</code></li>
+      </ul>
+
+      <h3 class="field-label">Responses</h3>
+      <h4 class="field-label">200</h4>
+      OK
+      <a href="#inline_response_200_5">inline_response_200_5</a>
+    </div>
+    <!-- method -->
+    <hr />
+    <div class="method">
+      <a name="getSpecificResource"></a>
+      <div class="method-path">
+        <a class="up" href="#__Methods">Up</a>
+        <pre
+          class="get"
+        ><code class="huge"><span class="http-method">get</span> /resources/{resourceId}</code></pre>
+      </div>
+      <div class="method-summary">
+        Get all the resources in the database with their tags and likes (<span
+          class="nickname"
+          >getSpecificResource</span
+        >)
+      </div>
+      <div class="method-notes"></div>
+
+      <h3 class="field-label">Path parameters</h3>
+      <div class="field-items">
+        <div class="param">resourceId (required)</div>
+
+        <div class="param-desc">
+          <span class="param-type">Path Parameter</span> &mdash; ID of the
+          resource to find comments from
+        </div>
+      </div>
+      <!-- field-items -->
+
+      <h3 class="field-label">Return type</h3>
+      <div class="return-type">
+        <a href="#inline_response_200_7">inline_response_200_7</a>
+      </div>
+
+      <!--Todo: process Response Object and its headers, schema, examples -->
+
+      <h3 class="field-label">Example data</h3>
+      <div class="example-data-content-type">
+        Content-Type: application/json
+      </div>
+      <pre class="example"><code>{
+  "status" : "success",
+  "data" : [ {
+    "id" : 1,
+    "resource_name" : "Test resource",
+    "author_name" : "Test author",
+    "url" : "https://test",
+    "description" : "Test description",
+    "content_type" : "article",
+    "week_no" : 6,
+    "creation_date" : "2022-01-05T13:50:59.225Z",
+    "recommender_id" : 6,
+    "rec_status" : "I have not read this resource but it looks promising",
+    "rec_message" : "HI test message",
+    "name" : "Jo",
+    "is_faculty" : false,
+    "tags" : [ {
+      "id" : 1,
+      "name" : "HTML"
+    }, {
+      "id" : 2,
+      "name" : "CSS"
+    }, {
+      "id" : 3,
+      "name" : "React"
+    } ],
+    "likes" : 2,
+    "dislikes" : 0
+  } ]
+}</code></pre>
+
+      <h3 class="field-label">Produces</h3>
+      This API call produces the following media types according to the
+      <span class="header">Accept</span> request header; the media type will be
+      conveyed by the <span class="header">Content-Type</span> response header.
+      <ul>
+        <li><code>application/json</code></li>
+      </ul>
+
+      <h3 class="field-label">Responses</h3>
+      <h4 class="field-label">200</h4>
+      OK
+      <a href="#inline_response_200_7">inline_response_200_7</a>
+    </div>
+    <!-- method -->
+    <hr />
+    <div class="method">
+      <a name="postResource"></a>
+      <div class="method-path">
+        <a class="up" href="#__Methods">Up</a>
+        <pre
+          class="post"
+        ><code class="huge"><span class="http-method">post</span> /resources</code></pre>
+      </div>
+      <div class="method-summary">
+        Post a new resource to the databases of resources, with a non-duplicate
+        url (<span class="nickname">postResource</span>)
+      </div>
+      <div class="method-notes"></div>
+
+      <h3 class="field-label">Consumes</h3>
+      This API call consumes the following media types via the
+      <span class="header">Content-Type</span> request header:
+      <ul>
+        <li><code>application/json</code></li>
+      </ul>
+
+      <h3 class="field-label">Request body</h3>
+      <div class="field-items">
+        <div class="param">
+          body <a href="#resources_body">resources_body</a> (required)
+        </div>
+
+        <div class="param-desc">
+          <span class="param-type">Body Parameter</span> &mdash; A request body
+          containing resource name, author name, url, description, content type,
+          week number, recommender&#x27;s id, recommendation status, and
+          recommendation message
+        </div>
+      </div>
+      <!-- field-items -->
+
+      <h3 class="field-label">Return type</h3>
+      <div class="return-type">
+        <a href="#inline_response_200_6">inline_response_200_6</a>
+      </div>
+
+      <!--Todo: process Response Object and its headers, schema, examples -->
+
+      <h3 class="field-label">Example data</h3>
+      <div class="example-data-content-type">
+        Content-Type: application/json
+      </div>
+      <pre class="example"><code>{
+  "status" : "success",
+  "data" : [ {
+    "id" : 6,
+    "resource_name" : "JavaScript tutorial",
+    "author_name" : "CodeCademy",
+    "url" : "https://www.codecademy.com/learn/jo",
+    "description" : "a tutorial",
+    "content_type" : "interactive",
+    "week_no" : 1,
+    "creation_date" : "2022-01-06T12:43:27.491Z",
+    "recommender_id" : 6,
+    "rec_status" : "I haven't used this resource but it looks promising",
+    "rec_message" : "great stuff",
+    "tags" : [ {
+      "id" : 1,
+      "name" : "HTML"
+    } ]
+  } ]
+}</code></pre>
+
+      <h3 class="field-label">Produces</h3>
+      This API call produces the following media types according to the
+      <span class="header">Accept</span> request header; the media type will be
+      conveyed by the <span class="header">Content-Type</span> response header.
+      <ul>
+        <li><code>application/json</code></li>
+      </ul>
+
+      <h3 class="field-label">Responses</h3>
+      <h4 class="field-label">200</h4>
+      OK
+      <a href="#inline_response_200_6">inline_response_200_6</a>
+      <h4 class="field-label">405</h4>
+      Method not allowed
+      <a href="#inline_response_405_1">inline_response_405_1</a>
+    </div>
+    <!-- method -->
+    <hr />
+    <h1><a name="StudyList">StudyList</a></h1>
+    <div class="method">
+      <a name="addItemToStudyList"></a>
+      <div class="method-path">
+        <a class="up" href="#__Methods">Up</a>
+        <pre
+          class="post"
+        ><code class="huge"><span class="http-method">post</span> /to-study-list/{userId}</code></pre>
+      </div>
+      <div class="method-summary">
+        Adds to the study list of an individual user (<span class="nickname"
+          >addItemToStudyList</span
+        >)
+      </div>
+      <div class="method-notes"></div>
+
+      <h3 class="field-label">Path parameters</h3>
+      <div class="field-items">
+        <div class="param">userId (required)</div>
+
+        <div class="param-desc">
+          <span class="param-type">Path Parameter</span> &mdash; ID of user to
+          return their study list
+        </div>
+      </div>
+      <!-- field-items -->
+
+      <h3 class="field-label">Consumes</h3>
+      This API call consumes the following media types via the
+      <span class="header">Content-Type</span> request header:
+      <ul>
+        <li><code>application/json</code></li>
+      </ul>
+
+      <h3 class="field-label">Request body</h3>
+      <div class="field-items">
+        <div class="param">
+          body
+          <a href="#tostudylist_userId_body">tostudylist_userId_body</a>
+          (required)
+        </div>
+
+        <div class="param-desc">
+          <span class="param-type">Body Parameter</span> &mdash; adding a new
+          item to the specific users study list
+        </div>
+      </div>
+      <!-- field-items -->
+
+      <h3 class="field-label">Return type</h3>
+      <div class="return-type">
+        <a href="#inline_response_201">inline_response_201</a>
+      </div>
+
+      <!--Todo: process Response Object and its headers, schema, examples -->
+
+      <h3 class="field-label">Example data</h3>
+      <div class="example-data-content-type">
+        Content-Type: application/json
+      </div>
+      <pre class="example"><code>{
+  "status" : "success",
+  "data" : [ {
+    "id" : 1,
+    "user_id" : 3,
+    "resource_id" : 1
+  } ]
+}</code></pre>
+
+      <h3 class="field-label">Produces</h3>
+      This API call produces the following media types according to the
+      <span class="header">Accept</span> request header; the media type will be
+      conveyed by the <span class="header">Content-Type</span> response header.
+      <ul>
+        <li><code>application/json</code></li>
+      </ul>
+
+      <h3 class="field-label">Responses</h3>
+      <h4 class="field-label">201</h4>
+      Created
+      <a href="#inline_response_201">inline_response_201</a>
+      <h4 class="field-label">405</h4>
+      Method not allowed
+      <a href="#inline_response_405">inline_response_405</a>
+    </div>
+    <!-- method -->
+    <hr />
+    <div class="method">
+      <a name="deleteItemInStudyList"></a>
+      <div class="method-path">
+        <a class="up" href="#__Methods">Up</a>
+        <pre
+          class="delete"
+        ><code class="huge"><span class="http-method">delete</span> /to-study-list/{userId}/{resourceId}</code></pre>
+      </div>
+      <div class="method-summary">
+        Delete an item from study list for an individual user (<span
+          class="nickname"
+          >deleteItemInStudyList</span
+        >)
+      </div>
+      <div class="method-notes"></div>
+
+      <h3 class="field-label">Path parameters</h3>
+      <div class="field-items">
+        <div class="param">userId (required)</div>
+
+        <div class="param-desc">
+          <span class="param-type">Path Parameter</span> &mdash; ID of user to
+          delete an item from their study list
+        </div>
+        <div class="param">resourceId (required)</div>
+
+        <div class="param-desc">
+          <span class="param-type">Path Parameter</span> &mdash; ID of resource
+          to be deleted
+        </div>
+      </div>
+      <!-- field-items -->
+
+      <h3 class="field-label">Return type</h3>
+      <div class="return-type">
+        <a href="#inline_response_200_3">inline_response_200_3</a>
+      </div>
+
+      <!--Todo: process Response Object and its headers, schema, examples -->
+
+      <h3 class="field-label">Example data</h3>
+      <div class="example-data-content-type">
+        Content-Type: application/json
+      </div>
+      <pre class="example"><code>{
+  "status" : "success",
+  "data" : [ {
+    "id" : 4,
+    "user_id" : 3,
+    "resource_id" : 1
+  } ]
+}</code></pre>
+
+      <h3 class="field-label">Produces</h3>
+      This API call produces the following media types according to the
+      <span class="header">Accept</span> request header; the media type will be
+      conveyed by the <span class="header">Content-Type</span> response header.
+      <ul>
+        <li><code>application/json</code></li>
+      </ul>
+
+      <h3 class="field-label">Responses</h3>
+      <h4 class="field-label">200</h4>
+      OK
+      <a href="#inline_response_200_3">inline_response_200_3</a>
+      <h4 class="field-label">404</h4>
+      Not Found
+      <a href="#inline_response_404_1">inline_response_404_1</a>
+    </div>
+    <!-- method -->
+    <hr />
+    <div class="method">
+      <a name="getStudyListForUser"></a>
+      <div class="method-path">
+        <a class="up" href="#__Methods">Up</a>
+        <pre
+          class="get"
+        ><code class="huge"><span class="http-method">get</span> /to-study-list/{userId}</code></pre>
+      </div>
+      <div class="method-summary">
+        Returns the study list of an individual user (<span class="nickname"
+          >getStudyListForUser</span
+        >)
+      </div>
+      <div class="method-notes">The list of a user's favourited resources</div>
+
+      <h3 class="field-label">Path parameters</h3>
+      <div class="field-items">
+        <div class="param">userId (required)</div>
+
+        <div class="param-desc">
+          <span class="param-type">Path Parameter</span> &mdash; ID of user to
+          return their study list
+        </div>
+      </div>
+      <!-- field-items -->
+
+      <h3 class="field-label">Return type</h3>
+      <div class="return-type">
+        <a href="#inline_response_200_2">inline_response_200_2</a>
+      </div>
+
+      <!--Todo: process Response Object and its headers, schema, examples -->
+
+      <h3 class="field-label">Example data</h3>
+      <div class="example-data-content-type">
+        Content-Type: application/json
+      </div>
+      <pre class="example"><code>{
+  "status" : "success",
+  "data" : [ {
+    "id" : 2,
+    "resource_name" : "JavaScript tutorial",
+    "author_name" : "CodeCademy",
+    "tags" : [ ]
+  }, {
+    "id" : 1,
+    "resource_name" : "react tutorial",
+    "author_name" : "freeCodeCamp",
+    "tags" : [ "React", "TypeScript" ]
+  } ]
+}</code></pre>
+
+      <h3 class="field-label">Produces</h3>
+      This API call produces the following media types according to the
+      <span class="header">Accept</span> request header; the media type will be
+      conveyed by the <span class="header">Content-Type</span> response header.
+      <ul>
+        <li><code>application/json</code></li>
+      </ul>
+
+      <h3 class="field-label">Responses</h3>
+      <h4 class="field-label">200</h4>
+      OK
+      <a href="#inline_response_200_2">inline_response_200_2</a>
+    </div>
+    <!-- method -->
+    <hr />
+    <h1><a name="Tag">Tag</a></h1>
+    <div class="method">
+      <a name="getTags"></a>
+      <div class="method-path">
+        <a class="up" href="#__Methods">Up</a>
+        <pre
+          class="get"
+        ><code class="huge"><span class="http-method">get</span> /tags</code></pre>
+      </div>
+      <div class="method-summary">
+        Get all the tags in the database (<span class="nickname">getTags</span>)
+      </div>
+      <div class="method-notes"></div>
+
+      <h3 class="field-label">Return type</h3>
+      <div class="return-type">
+        <a href="#inline_response_200_4">inline_response_200_4</a>
+      </div>
+
+      <!--Todo: process Response Object and its headers, schema, examples -->
+
+      <h3 class="field-label">Example data</h3>
+      <div class="example-data-content-type">
+        Content-Type: application/json
+      </div>
+      <pre class="example"><code>{
+  "status" : "success",
+  "data" : [ {
+    "id" : 1,
+    "name" : "HTML"
+  }, {
+    "id" : 2,
+    "name" : "CSS"
+  }, {
+    "id" : 3,
+    "name" : "React"
+  } ]
+}</code></pre>
+
+      <h3 class="field-label">Produces</h3>
+      This API call produces the following media types according to the
+      <span class="header">Accept</span> request header; the media type will be
+      conveyed by the <span class="header">Content-Type</span> response header.
+      <ul>
+        <li><code>application/json</code></li>
+      </ul>
+
+      <h3 class="field-label">Responses</h3>
+      <h4 class="field-label">200</h4>
+      OK
+      <a href="#inline_response_200_4">inline_response_200_4</a>
+    </div>
+    <!-- method -->
+    <hr />
+    <h1><a name="Users">Users</a></h1>
+    <div class="method">
+      <a name="getUsers"></a>
+      <div class="method-path">
+        <a class="up" href="#__Methods">Up</a>
+        <pre
+          class="get"
+        ><code class="huge"><span class="http-method">get</span> /users</code></pre>
+      </div>
+      <div class="method-summary">
+        Return all users (<span class="nickname">getUsers</span>)
+      </div>
+      <div class="method-notes">List of users that can add resources</div>
+
+      <h3 class="field-label">Return type</h3>
+      <div class="return-type">
+        <a href="#inline_response_200_1">inline_response_200_1</a>
+      </div>
+
+      <!--Todo: process Response Object and its headers, schema, examples -->
+
+      <h3 class="field-label">Example data</h3>
+      <div class="example-data-content-type">
+        Content-Type: application/json
+      </div>
+      <pre class="example"><code>{
+  "status" : "success",
+  "data" : [ {
+    "id" : 1,
+    "name" : "Richard",
+    "is_faculty" : true
+  }, {
+    "id" : 2,
+    "name" : "Neill",
+    "is_faculty" : true
+  }, {
+    "id" : 3,
+    "name" : "Linus",
+    "is_faculty" : false
+  }, {
+    "id" : 4,
+    "name" : "Veta",
+    "is_faculty" : false
+  } ]
+}</code></pre>
+
+      <h3 class="field-label">Produces</h3>
+      This API call produces the following media types according to the
+      <span class="header">Accept</span> request header; the media type will be
+      conveyed by the <span class="header">Content-Type</span> response header.
+      <ul>
+        <li><code>application/json</code></li>
+      </ul>
+
+      <h3 class="field-label">Responses</h3>
+      <h4 class="field-label">200</h4>
+      OK
+      <a href="#inline_response_200_1">inline_response_200_1</a>
+    </div>
+    <!-- method -->
+    <hr />
+
+    <h2><a name="__Models">Models</a></h2>
+    [ Jump to <a href="#__Methods">Methods</a> ]
+
+    <h3>Table of Contents</h3>
+    <ol>
+      <li>
+        <a href="#inline_response_200"><code>inline_response_200</code></a>
+      </li>
+      <li>
+        <a href="#inline_response_200_1"><code>inline_response_200_1</code></a>
+      </li>
+      <li>
+        <a href="#inline_response_200_2"><code>inline_response_200_2</code></a>
+      </li>
+      <li>
+        <a href="#inline_response_200_3"><code>inline_response_200_3</code></a>
+      </li>
+      <li>
+        <a href="#inline_response_200_4"><code>inline_response_200_4</code></a>
+      </li>
+      <li>
+        <a href="#inline_response_200_5"><code>inline_response_200_5</code></a>
+      </li>
+      <li>
+        <a href="#inline_response_200_6"><code>inline_response_200_6</code></a>
+      </li>
+      <li>
+        <a href="#inline_response_200_7"><code>inline_response_200_7</code></a>
+      </li>
+      <li>
+        <a href="#inline_response_201"><code>inline_response_201</code></a>
+      </li>
+      <li>
+        <a href="#inline_response_404"><code>inline_response_404</code></a>
+      </li>
+      <li>
+        <a href="#inline_response_404_1"><code>inline_response_404_1</code></a>
+      </li>
+      <li>
+        <a href="#inline_response_405"><code>inline_response_405</code></a>
+      </li>
+      <li>
+        <a href="#inline_response_405_1"><code>inline_response_405_1</code></a>
+      </li>
+      <li>
+        <a href="#resources_body"><code>resources_body</code></a>
+      </li>
+      <li>
+        <a href="#tostudylist_userId_body"
+          ><code>tostudylist_userId_body</code></a
+        >
+      </li>
+    </ol>
+
+    <div class="model">
+      <h3>
+        <a name="inline_response_200"><code>inline_response_200</code></a>
+        <a class="up" href="#__Models">Up</a>
+      </h3>
+
+      <div class="field-items">
+        <div class="param">status</div>
+        <div class="param-desc">
+          <span class="param-type"><a href="#string">String</a></span>
+        </div>
+        <div class="param">data</div>
+        <div class="param-desc">
+          <span class="param-type"><a href="#object">array[Object]</a></span>
+        </div>
+      </div>
+      <!-- field-items -->
+    </div>
+    <div class="model">
+      <h3>
+        <a name="inline_response_200_1"><code>inline_response_200_1</code></a>
+        <a class="up" href="#__Models">Up</a>
+      </h3>
+
+      <div class="field-items">
+        <div class="param">status</div>
+        <div class="param-desc">
+          <span class="param-type"><a href="#string">String</a></span>
+        </div>
+        <div class="param">data</div>
+        <div class="param-desc">
+          <span class="param-type"><a href="#object">array[Object]</a></span>
+        </div>
+      </div>
+      <!-- field-items -->
+    </div>
+    <div class="model">
+      <h3>
+        <a name="inline_response_200_2"><code>inline_response_200_2</code></a>
+        <a class="up" href="#__Models">Up</a>
+      </h3>
+
+      <div class="field-items">
+        <div class="param">status</div>
+        <div class="param-desc">
+          <span class="param-type"><a href="#string">String</a></span>
+        </div>
+        <div class="param">data</div>
+        <div class="param-desc">
+          <span class="param-type"><a href="#object">array[Object]</a></span>
+        </div>
+      </div>
+      <!-- field-items -->
+    </div>
+    <div class="model">
+      <h3>
+        <a name="inline_response_200_3"><code>inline_response_200_3</code></a>
+        <a class="up" href="#__Models">Up</a>
+      </h3>
+
+      <div class="field-items">
+        <div class="param">status</div>
+        <div class="param-desc">
+          <span class="param-type"><a href="#string">String</a></span>
+        </div>
+        <div class="param">data</div>
+        <div class="param-desc">
+          <span class="param-type"><a href="#object">array[Object]</a></span>
+        </div>
+      </div>
+      <!-- field-items -->
+    </div>
+    <div class="model">
+      <h3>
+        <a name="inline_response_200_4"><code>inline_response_200_4</code></a>
+        <a class="up" href="#__Models">Up</a>
+      </h3>
+
+      <div class="field-items">
+        <div class="param">status</div>
+        <div class="param-desc">
+          <span class="param-type"><a href="#string">String</a></span>
+        </div>
+        <div class="param">data</div>
+        <div class="param-desc">
+          <span class="param-type"><a href="#object">array[Object]</a></span>
+        </div>
+      </div>
+      <!-- field-items -->
+    </div>
+    <div class="model">
+      <h3>
+        <a name="inline_response_200_5"><code>inline_response_200_5</code></a>
+        <a class="up" href="#__Models">Up</a>
+      </h3>
+
+      <div class="field-items">
+        <div class="param">status</div>
+        <div class="param-desc">
+          <span class="param-type"><a href="#string">String</a></span>
+        </div>
+        <div class="param">data</div>
+        <div class="param-desc">
+          <span class="param-type"><a href="#object">array[Object]</a></span>
+        </div>
+      </div>
+      <!-- field-items -->
+    </div>
+    <div class="model">
+      <h3>
+        <a name="inline_response_200_6"><code>inline_response_200_6</code></a>
+        <a class="up" href="#__Models">Up</a>
+      </h3>
+
+      <div class="field-items">
+        <div class="param">status</div>
+        <div class="param-desc">
+          <span class="param-type"><a href="#string">String</a></span>
+        </div>
+        <div class="param">data</div>
+        <div class="param-desc">
+          <span class="param-type"><a href="#object">array[Object]</a></span>
+        </div>
+      </div>
+      <!-- field-items -->
+    </div>
+    <div class="model">
+      <h3>
+        <a name="inline_response_200_7"><code>inline_response_200_7</code></a>
+        <a class="up" href="#__Models">Up</a>
+      </h3>
+
+      <div class="field-items">
+        <div class="param">status</div>
+        <div class="param-desc">
+          <span class="param-type"><a href="#string">String</a></span>
+        </div>
+        <div class="param">data</div>
+        <div class="param-desc">
+          <span class="param-type"><a href="#object">array[Object]</a></span>
+        </div>
+      </div>
+      <!-- field-items -->
+    </div>
+    <div class="model">
+      <h3>
+        <a name="inline_response_201"><code>inline_response_201</code></a>
+        <a class="up" href="#__Models">Up</a>
+      </h3>
+
+      <div class="field-items">
+        <div class="param">status</div>
+        <div class="param-desc">
+          <span class="param-type"><a href="#string">String</a></span>
+        </div>
+        <div class="param">data</div>
+        <div class="param-desc">
+          <span class="param-type"><a href="#object">array[Object]</a></span>
+        </div>
+      </div>
+      <!-- field-items -->
+    </div>
+    <div class="model">
+      <h3>
+        <a name="inline_response_404"><code>inline_response_404</code></a>
+        <a class="up" href="#__Models">Up</a>
+      </h3>
+
+      <div class="field-items">
+        <div class="param">status</div>
+        <div class="param-desc">
+          <span class="param-type"><a href="#string">String</a></span>
+        </div>
+        <div class="param">message</div>
+        <div class="param-desc">
+          <span class="param-type"><a href="#string">String</a></span>
+        </div>
+      </div>
+      <!-- field-items -->
+    </div>
+    <div class="model">
+      <h3>
+        <a name="inline_response_404_1"><code>inline_response_404_1</code></a>
+        <a class="up" href="#__Models">Up</a>
+      </h3>
+
+      <div class="field-items">
+        <div class="param">status</div>
+        <div class="param-desc">
+          <span class="param-type"><a href="#string">String</a></span>
+        </div>
+        <div class="param">message</div>
+        <div class="param-desc">
+          <span class="param-type"><a href="#string">String</a></span>
+        </div>
+      </div>
+      <!-- field-items -->
+    </div>
+    <div class="model">
+      <h3>
+        <a name="inline_response_405"><code>inline_response_405</code></a>
+        <a class="up" href="#__Models">Up</a>
+      </h3>
+
+      <div class="field-items">
+        <div class="param">status</div>
+        <div class="param-desc">
+          <span class="param-type"><a href="#string">String</a></span>
+        </div>
+        <div class="param">message</div>
+        <div class="param-desc">
+          <span class="param-type"><a href="#string">String</a></span>
+        </div>
+      </div>
+      <!-- field-items -->
+    </div>
+    <div class="model">
+      <h3>
+        <a name="inline_response_405_1"><code>inline_response_405_1</code></a>
+        <a class="up" href="#__Models">Up</a>
+      </h3>
+
+      <div class="field-items">
+        <div class="param">status</div>
+        <div class="param-desc">
+          <span class="param-type"><a href="#string">String</a></span>
+        </div>
+        <div class="param">message</div>
+        <div class="param-desc">
+          <span class="param-type"><a href="#string">String</a></span>
+        </div>
+      </div>
+      <!-- field-items -->
+    </div>
+    <div class="model">
+      <h3>
+        <a name="resources_body"><code>resources_body</code></a>
+        <a class="up" href="#__Models">Up</a>
+      </h3>
+
+      <div class="field-items">
+        <div class="param">resource_name</div>
+        <div class="param-desc">
+          <span class="param-type"><a href="#string">String</a></span>
+        </div>
+        <div class="param">author_name</div>
+        <div class="param-desc">
+          <span class="param-type"><a href="#string">String</a></span>
+        </div>
+        <div class="param">url</div>
+        <div class="param-desc">
+          <span class="param-type"><a href="#string">String</a></span>
+        </div>
+        <div class="param">description</div>
+        <div class="param-desc">
+          <span class="param-type"><a href="#string">String</a></span>
+        </div>
+        <div class="param">content_type</div>
+        <div class="param-desc">
+          <span class="param-type"><a href="#string">String</a></span>
+        </div>
+        <div class="param">week_no</div>
+        <div class="param-desc">
+          <span class="param-type"><a href="#integer">Integer</a></span>
+        </div>
+        <div class="param">recommender_id</div>
+        <div class="param-desc">
+          <span class="param-type"><a href="#integer">Integer</a></span>
+        </div>
+        <div class="param">rec_status</div>
+        <div class="param-desc">
+          <span class="param-type"><a href="#string">String</a></span>
+        </div>
+        <div class="param">rec_message</div>
+        <div class="param-desc">
+          <span class="param-type"><a href="#string">String</a></span>
+        </div>
+      </div>
+      <!-- field-items -->
+    </div>
+    <div class="model">
+      <h3>
+        <a name="tostudylist_userId_body"
+          ><code>tostudylist_userId_body</code></a
+        >
+        <a class="up" href="#__Models">Up</a>
+      </h3>
+
+      <div class="field-items">
+        <div class="param">resource_id</div>
+        <div class="param-desc">
+          <span class="param-type"><a href="#integer">Integer</a></span>
+        </div>
+      </div>
+      <!-- field-items -->
+    </div>
+  </body>
+</html>
