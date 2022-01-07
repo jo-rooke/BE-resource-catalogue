@@ -178,25 +178,33 @@ client.connect().then(() => {
     const resourceQuery =
       "SELECT resources.*, users.name, users.is_faculty FROM resources JOIN users ON resources.recommender_id = users.id WHERE resources.id = $1";
     const dbres = await client.query(resourceQuery, [resourceId]);
-    const likeCountQuery =
-      "SELECT liked FROM feedback WHERE feedback.resource_id = $1";
-    const dbresTwo = await client.query(likeCountQuery, [resourceId]);
 
-    const tagsQuery =
-      "SELECT tags.tag_id AS id, tag_names.name FROM tags JOIN tag_names ON tags.tag_id = tag_names.id WHERE tags.resource_id = $1";
-    const dbresThree = await client.query(tagsQuery, [resourceId]);
-    const likes = [];
-    for (const feedback of dbresTwo.rows) {
-      likes.push(feedback.liked);
+    if (dbres.rows[0]) {
+      const likeCountQuery =
+        "SELECT liked FROM feedback WHERE feedback.resource_id = $1";
+      const dbresTwo = await client.query(likeCountQuery, [resourceId]);
+
+      const tagsQuery =
+        "SELECT tags.tag_id AS id, tag_names.name FROM tags JOIN tag_names ON tags.tag_id = tag_names.id WHERE tags.resource_id = $1";
+      const dbresThree = await client.query(tagsQuery, [resourceId]);
+      const likes = [];
+      for (const feedback of dbresTwo.rows) {
+        likes.push(feedback.liked);
+      }
+      dbres.rows[0].tags = dbresThree.rows;
+      dbres.rows[0].likes = likes.filter((element) => element).length;
+      dbres.rows[0].dislikes = likes.filter((element) => !element).length;
+
+      res.status(200).json({
+        status: "success",
+        data: dbres.rows,
+      });
+    } else {
+      res.status(404).json({
+        status: "failed",
+        message: "Could not find a resource with this id",
+      });
     }
-    dbres.rows[0].tags = dbresThree.rows;
-    dbres.rows[0].likes = likes.filter((element) => element).length;
-    dbres.rows[0].dislikes = likes.filter((element) => !element).length;
-
-    res.status(200).json({
-      status: "success",
-      data: dbres.rows,
-    });
   });
 
   //POST /resources
