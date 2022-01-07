@@ -194,6 +194,13 @@
           ></a
         >
       </li>
+      <li>
+        <a href="#postComments"
+          ><code
+            ><span class="http-method">post</span> /comments/{resourceId}</code
+          ></a
+        >
+      </li>
     </ul>
     <h4><a href="#Resources">Resources</a></h4>
     <ul>
@@ -328,6 +335,72 @@
     </div>
     <!-- method -->
     <hr />
+    <div class="method">
+      <a name="postComments"></a>
+      <div class="method-path">
+        <a class="up" href="#__Methods">Up</a>
+        <pre
+          class="post"
+        ><code class="huge"><span class="http-method">post</span> /comments/{resourceId}</code></pre>
+      </div>
+      <div class="method-summary">
+        add a comment to a specific resource (<span class="nickname"
+          >postComments</span
+        >)
+      </div>
+      <div class="method-notes"></div>
+
+      <h3 class="field-label">Path parameters</h3>
+      <div class="field-items">
+        <div class="param">resourceId (required)</div>
+
+        <div class="param-desc">
+          <span class="param-type">Path Parameter</span> &mdash; ID of the
+          resource to add comment to
+        </div>
+      </div>
+      <!-- field-items -->
+
+      <h3 class="field-label">Return type</h3>
+      <div class="return-type">
+        <a href="#inline_response_200_1">inline_response_200_1</a>
+      </div>
+
+      <!--Todo: process Response Object and its headers, schema, examples -->
+
+      <h3 class="field-label">Example data</h3>
+      <div class="example-data-content-type">
+        Content-Type: application/json
+      </div>
+      <pre class="example"><code>{
+  "status" : "success",
+  "data" : [ {
+    "id" : 2,
+    "user_id" : 1,
+    "resource_id" : 1,
+    "liked" : true,
+    "comment" : "Thanks for sharing!"
+  } ]
+}</code></pre>
+
+      <h3 class="field-label">Produces</h3>
+      This API call produces the following media types according to the
+      <span class="header">Accept</span> request header; the media type will be
+      conveyed by the <span class="header">Content-Type</span> response header.
+      <ul>
+        <li><code>application/json</code></li>
+      </ul>
+
+      <h3 class="field-label">Responses</h3>
+      <h4 class="field-label">200</h4>
+      OK
+      <a href="#inline_response_200_1">inline_response_200_1</a>
+      <h4 class="field-label">404</h4>
+      Not found
+      <a href="#inline_response_404">inline_response_404</a>
+    </div>
+    <!-- method -->
+    <hr />
     <h1><a name="Resources">Resources</a></h1>
     <div class="method">
       <a name="getResources"></a>
@@ -347,7 +420,7 @@
 
       <h3 class="field-label">Return type</h3>
       <div class="return-type">
-        <a href="#inline_response_200_5">inline_response_200_5</a>
+        <a href="#inline_response_200_6">inline_response_200_6</a>
       </div>
 
       <!--Todo: process Response Object and its headers, schema, examples -->
@@ -394,7 +467,7 @@
       <h3 class="field-label">Responses</h3>
       <h4 class="field-label">200</h4>
       OK
-      <a href="#inline_response_200_5">inline_response_200_5</a>
+      <a href="#inline_response_200_6">inline_response_200_6</a>
     </div>
     <!-- method -->
     <hr />
@@ -427,7 +500,7 @@
 
       <h3 class="field-label">Return type</h3>
       <div class="return-type">
-        <a href="#inline_response_200_7">inline_response_200_7</a>
+        <a href="#inline_response_200_8">inline_response_200_8</a>
       </div>
 
       <!--Todo: process Response Object and its headers, schema, examples -->
@@ -478,7 +551,7 @@
       <h3 class="field-label">Responses</h3>
       <h4 class="field-label">200</h4>
       OK
-      <a href="#inline_response_200_7">inline_response_200_7</a>
+      <a href="#inline_response_200_8">inline_response_200_8</a>
     </div>
     <!-- method -->
     <hr />
@@ -520,7 +593,7 @@
 
       <h3 class="field-label">Return type</h3>
       <div class="return-type">
-        <a href="#inline_response_200_6">inline_response_200_6</a>
+        <a href="#inline_response_200_7">inline_response_200_7</a>
       </div>
 
       <!--Todo: process Response Object and its headers, schema, examples -->
@@ -561,10 +634,10 @@
       <h3 class="field-label">Responses</h3>
       <h4 class="field-label">200</h4>
       OK
-      <a href="#inline_response_200_6">inline_response_200_6</a>
+      <a href="#inline_response_200_7">inline_response_200_7</a>
       <h4 class="field-label">405</h4>
       Method not allowed
-      <a href="#inline_response_405_1">inline_response_405_1</a>
+      <a href="#inline_response_405_2">inline_response_405_2</a>
     </div>
     <!-- method -->
     <hr />
@@ -649,8 +722,11 @@
       <h4 class="field-label">201</h4>
       Created
       <a href="#inline_response_201">inline_response_201</a>
+      <h4 class="field-label">404</h4>
+      When the user ID is not found
+      <a href="#inline_response_404_2">inline_response_404_2</a>
       <h4 class="field-label">405</h4>
-      Method not allowed
+      When the resource already exists in the user&#x27;s to-study list
       <a href="#inline_response_405">inline_response_405</a>
     </div>
     <!-- method -->
@@ -690,7 +766,7 @@
 
       <h3 class="field-label">Return type</h3>
       <div class="return-type">
-        <a href="#inline_response_200_3">inline_response_200_3</a>
+        <a href="#inline_response_200_4">inline_response_200_4</a>
       </div>
 
       <!--Todo: process Response Object and its headers, schema, examples -->
@@ -719,10 +795,13 @@
       <h3 class="field-label">Responses</h3>
       <h4 class="field-label">200</h4>
       OK
-      <a href="#inline_response_200_3">inline_response_200_3</a>
+      <a href="#inline_response_200_4">inline_response_200_4</a>
       <h4 class="field-label">404</h4>
-      Not Found
-      <a href="#inline_response_404_1">inline_response_404_1</a>
+      When the user ID is not found
+      <a href="#inline_response_404_2">inline_response_404_2</a>
+      <h4 class="field-label">405</h4>
+      When the resource ID does not exist in the user&#x27;s to-study list
+      <a href="#inline_response_405_1">inline_response_405_1</a>
     </div>
     <!-- method -->
     <hr />
@@ -754,7 +833,7 @@
 
       <h3 class="field-label">Return type</h3>
       <div class="return-type">
-        <a href="#inline_response_200_2">inline_response_200_2</a>
+        <a href="#inline_response_200_3">inline_response_200_3</a>
       </div>
 
       <!--Todo: process Response Object and its headers, schema, examples -->
@@ -769,12 +848,24 @@
     "id" : 2,
     "resource_name" : "JavaScript tutorial",
     "author_name" : "CodeCademy",
-    "tags" : [ ]
+    "tags" : [ {
+      "id" : 3,
+      "name" : "Javascript"
+    }, {
+      "id" : 4,
+      "name" : "HTML"
+    } ]
   }, {
     "id" : 1,
     "resource_name" : "react tutorial",
     "author_name" : "freeCodeCamp",
-    "tags" : [ "React", "TypeScript" ]
+    "tags" : [ {
+      "id" : 1,
+      "name" : "React"
+    }, {
+      "id" : 2,
+      "name" : "TypeScript"
+    } ]
   } ]
 }</code></pre>
 
@@ -789,7 +880,10 @@
       <h3 class="field-label">Responses</h3>
       <h4 class="field-label">200</h4>
       OK
-      <a href="#inline_response_200_2">inline_response_200_2</a>
+      <a href="#inline_response_200_3">inline_response_200_3</a>
+      <h4 class="field-label">404</h4>
+      When the user ID is not found
+      <a href="#inline_response_404_2">inline_response_404_2</a>
     </div>
     <!-- method -->
     <hr />
@@ -809,7 +903,7 @@
 
       <h3 class="field-label">Return type</h3>
       <div class="return-type">
-        <a href="#inline_response_200_4">inline_response_200_4</a>
+        <a href="#inline_response_200_5">inline_response_200_5</a>
       </div>
 
       <!--Todo: process Response Object and its headers, schema, examples -->
@@ -843,7 +937,10 @@
       <h3 class="field-label">Responses</h3>
       <h4 class="field-label">200</h4>
       OK
-      <a href="#inline_response_200_4">inline_response_200_4</a>
+      <a href="#inline_response_200_5">inline_response_200_5</a>
+      <h4 class="field-label">404</h4>
+      When the table &#x27;tags&#x27; is not found
+      <a href="#inline_response_404_1">inline_response_404_1</a>
     </div>
     <!-- method -->
     <hr />
@@ -863,7 +960,7 @@
 
       <h3 class="field-label">Return type</h3>
       <div class="return-type">
-        <a href="#inline_response_200_1">inline_response_200_1</a>
+        <a href="#inline_response_200_2">inline_response_200_2</a>
       </div>
 
       <!--Todo: process Response Object and its headers, schema, examples -->
@@ -904,7 +1001,10 @@
       <h3 class="field-label">Responses</h3>
       <h4 class="field-label">200</h4>
       OK
-      <a href="#inline_response_200_1">inline_response_200_1</a>
+      <a href="#inline_response_200_2">inline_response_200_2</a>
+      <h4 class="field-label">404</h4>
+      When the table &#x27;users&#x27; is not found
+      <a href="#inline_response_404_1">inline_response_404_1</a>
     </div>
     <!-- method -->
     <hr />
@@ -939,6 +1039,9 @@
         <a href="#inline_response_200_7"><code>inline_response_200_7</code></a>
       </li>
       <li>
+        <a href="#inline_response_200_8"><code>inline_response_200_8</code></a>
+      </li>
+      <li>
         <a href="#inline_response_201"><code>inline_response_201</code></a>
       </li>
       <li>
@@ -948,10 +1051,16 @@
         <a href="#inline_response_404_1"><code>inline_response_404_1</code></a>
       </li>
       <li>
+        <a href="#inline_response_404_2"><code>inline_response_404_2</code></a>
+      </li>
+      <li>
         <a href="#inline_response_405"><code>inline_response_405</code></a>
       </li>
       <li>
         <a href="#inline_response_405_1"><code>inline_response_405_1</code></a>
+      </li>
+      <li>
+        <a href="#inline_response_405_2"><code>inline_response_405_2</code></a>
       </li>
       <li>
         <a href="#resources_body"><code>resources_body</code></a>
@@ -1109,6 +1218,24 @@
     </div>
     <div class="model">
       <h3>
+        <a name="inline_response_200_8"><code>inline_response_200_8</code></a>
+        <a class="up" href="#__Models">Up</a>
+      </h3>
+
+      <div class="field-items">
+        <div class="param">status</div>
+        <div class="param-desc">
+          <span class="param-type"><a href="#string">String</a></span>
+        </div>
+        <div class="param">data</div>
+        <div class="param-desc">
+          <span class="param-type"><a href="#object">array[Object]</a></span>
+        </div>
+      </div>
+      <!-- field-items -->
+    </div>
+    <div class="model">
+      <h3>
         <a name="inline_response_201"><code>inline_response_201</code></a>
         <a class="up" href="#__Models">Up</a>
       </h3>
@@ -1156,6 +1283,24 @@
         </div>
         <div class="param">message</div>
         <div class="param-desc">
+          <span class="param-type"><a href="#object">Object</a></span>
+        </div>
+      </div>
+      <!-- field-items -->
+    </div>
+    <div class="model">
+      <h3>
+        <a name="inline_response_404_2"><code>inline_response_404_2</code></a>
+        <a class="up" href="#__Models">Up</a>
+      </h3>
+
+      <div class="field-items">
+        <div class="param">status</div>
+        <div class="param-desc">
+          <span class="param-type"><a href="#string">String</a></span>
+        </div>
+        <div class="param">message</div>
+        <div class="param-desc">
           <span class="param-type"><a href="#string">String</a></span>
         </div>
       </div>
@@ -1182,6 +1327,24 @@
     <div class="model">
       <h3>
         <a name="inline_response_405_1"><code>inline_response_405_1</code></a>
+        <a class="up" href="#__Models">Up</a>
+      </h3>
+
+      <div class="field-items">
+        <div class="param">status</div>
+        <div class="param-desc">
+          <span class="param-type"><a href="#string">String</a></span>
+        </div>
+        <div class="param">message</div>
+        <div class="param-desc">
+          <span class="param-type"><a href="#string">String</a></span>
+        </div>
+      </div>
+      <!-- field-items -->
+    </div>
+    <div class="model">
+      <h3>
+        <a name="inline_response_405_2"><code>inline_response_405_2</code></a>
         <a class="up" href="#__Models">Up</a>
       </h3>
 
