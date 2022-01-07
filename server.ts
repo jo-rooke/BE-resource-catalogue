@@ -286,6 +286,49 @@ client.connect().then(() => {
     }
   );
 
+  // POST /comments/:resourceId
+  app.post<
+    { resourceId: number },
+    {},
+    { userId: number; liked: boolean; comment: string }
+  >("/comments/:resourceId", async (req, res) => {
+    const resourceId = req.params.resourceId;
+    const { userId, liked, comment } = req.body;
+    const checkResourceExistsQuery = "SELECT * FROM resources WHERE id = $1";
+    const dbresResourceCheck = await client.query(checkResourceExistsQuery, [
+      resourceId,
+    ]);
+    // check if resource exists to be commented on
+    if (dbresResourceCheck.rowCount === 1) {
+      const checkUserCommentsQuery =
+        "SELECT * FROM feedback WHERE user_id = $1 AND resource_id = $2";
+      const dbresUserCheck = await client.query(checkUserCommentsQuery, [
+        userId,
+        resourceId,
+      ]);
+      // check if user has already commented
+      if (dbresUserCheck.rowCount === 0) {
+        const query =
+          "INSERT INTO feedback (user_id, resource_id, liked, comment) VALUES ($1, $2, $3, $4) returning *";
+        const dbres = await client.query(query, [
+          userId,
+          resourceId,
+          liked,
+          comment,
+        ]);
+        res.status(201).json({ status: "success", data: dbres.rows });
+      } else {
+        res.status(403).json({
+          status: "failed",
+          message:
+            "One user cannot leave more than one comment on a single resource",
+        });
+      }
+    } else {
+      res.status(404).json({ status: "failed", message: "Resource not found" });
+    }
+  });
+
   // GET /tags/:resourceId
   app.get<{ resourceId: number }, {}, {}>(
     "/tags/:resourceId",
