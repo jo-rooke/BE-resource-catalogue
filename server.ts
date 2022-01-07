@@ -2,6 +2,7 @@ import { Client } from "pg";
 import { config } from "dotenv";
 import express from "express";
 import cors from "cors";
+import path from "path";
 import IPostResourceResponse from "./IPostResourceResponse";
 config(); //Read .env file lines as though they were env vars.
 
@@ -37,17 +38,25 @@ client.connect().then(() => {
   });
 
   //GET
-  // app.get("/", async (req, res) => {
-  // });
+  app.get("/", async (req, res) => {
+    res.sendFile(path.join(__dirname + "/index.html"));
+  });
 
   // GET /users
   app.get("/users", async (req, res) => {
-    const dbres = await client.query("select * from users");
-    const userList = dbres.rows;
-    res.status(200).json({
-      status: "success",
-      data: userList,
-    });
+    try {
+      const dbres = await client.query("select * from users");
+      const userList = dbres.rows;
+      res.status(200).json({
+        status: "success",
+        data: userList,
+      });
+    } catch (error) {
+      res.status(404).json({
+        status: "failed",
+        message: error,
+      });
+    }
   });
 
   // GET /to-study-list/:userId
@@ -55,25 +64,35 @@ client.connect().then(() => {
     "/to-study-list/:userId",
     async (req, res) => {
       const userId = req.params.userId;
-      const query1 =
-        "select resources.id, resources.resource_name, resources.author_name from to_study_list join resources on to_study_list.resource_id = resources.id where to_study_list.user_id = $1";
-      const dbres1 = await client.query(query1, [userId]);
-      const query2 =
-        "select to_study_list.resource_id, tag_names.id, tag_names.name from to_study_list join tags on to_study_list.resource_id = tags.resource_id join tag_names on tags.tag_id = tag_names.id where to_study_list.user_id = $1";
-      const dbres2 = await client.query(query2, [userId]);
-      for (const resource of dbres1.rows) {
-        const tagsArr = [];
-        for (const tag of dbres2.rows) {
-          if (resource.id === tag.resource_id) {
-            tagsArr.push({ id: tag.id, name: tag.name });
+      const query = "SELECT * FROM users WHERE id = $1";
+      const dbres = await client.query(query, [userId]);
+      if (dbres.rowCount === 0) {
+        // Checks if user ID exists
+        res.status(404).json({
+          status: "failed",
+          message: `User ID ${userId} does not exist.`,
+        });
+      } else {
+        const query1 =
+          "select resources.id, resources.resource_name, resources.author_name from to_study_list join resources on to_study_list.resource_id = resources.id where to_study_list.user_id = $1";
+        const dbres1 = await client.query(query1, [userId]);
+        const query2 =
+          "select to_study_list.resource_id, tag_names.id, tag_names.name from to_study_list join tags on to_study_list.resource_id = tags.resource_id join tag_names on tags.tag_id = tag_names.id where to_study_list.user_id = $1";
+        const dbres2 = await client.query(query2, [userId]);
+        for (const resource of dbres1.rows) {
+          const tagsArr = [];
+          for (const tag of dbres2.rows) {
+            if (resource.id === tag.resource_id) {
+              tagsArr.push({ id: tag.id, name: tag.name });
+            }
           }
+          resource.tags = tagsArr;
         }
-        resource.tags = tagsArr;
+        res.status(200).json({
+          status: "success",
+          data: dbres1.rows,
+        });
       }
-      res.status(200).json({
-        status: "success",
-        data: dbres1.rows,
-      });
     }
   );
 
@@ -83,56 +102,84 @@ client.connect().then(() => {
     async (req, res) => {
       const userId = req.params.userId;
       const { resourceId } = req.body;
-      const query1 =
-        "SELECT * FROM to_study_list where user_id = $1 and resource_id = $2";
-      const dbres1 = await client.query(query1, [userId, resourceId]);
-      if (dbres1.rowCount === 0) {
-        const query2 =
-          "INSERT INTO to_study_list (user_id, resource_id) values ($1, $2) returning *";
-        const dbres2 = await client.query(query2, [userId, resourceId]);
-        res.status(201).json({
-          status: "success",
-          data: dbres2.rows,
+      const query = "SELECT * FROM users WHERE id = $1";
+      const dbres = await client.query(query, [userId]);
+      if (dbres.rowCount === 0) {
+        // Checks if user ID exists
+        res.status(404).json({
+          status: "failed",
+          message: `User ID ${userId} does not exist.`,
         });
       } else {
-        res.status(405).json({
-          status: "failed",
-          message: "Resource is already in the to-study list.",
-        });
+        const query1 =
+          "SELECT * FROM to_study_list where user_id = $1 and resource_id = $2";
+        const dbres1 = await client.query(query1, [userId, resourceId]);
+        if (dbres1.rowCount === 0) {
+          // Checks if user already has resource saved in the to-study list
+          const query2 =
+            "INSERT INTO to_study_list (user_id, resource_id) values ($1, $2) returning *";
+          const dbres2 = await client.query(query2, [userId, resourceId]);
+          res.status(201).json({
+            status: "success",
+            data: dbres2.rows,
+          });
+        } else {
+          res.status(405).json({
+            status: "failed",
+            message: `Resource ID ${resourceId} is already in the to-study list of user with ID ${userId}.`,
+          });
+        }
       }
     }
   );
 
-  // DELETE /to-study-list/:userId
-  app.delete<{ userId: number }, {}, { resourceId: number }>(
-    "/to-study-list/:userId",
+  // DELETE /to-study-list/:userId/:resourceId
+  app.delete<{ userId: number; resourceId: number }, {}, {}>(
+    "/to-study-list/:userId/:resourceId",
     async (req, res) => {
-      const userId = req.params.userId;
-      const { resourceId } = req.body;
-      const query =
-        "DELETE FROM to_study_list WHERE user_id = $1 AND resource_id = $2 RETURNING *";
-      const dbres = await client.query(query, [userId, resourceId]);
+      const { userId, resourceId } = req.params;
+      const query = "SELECT * FROM users WHERE id = $1";
+      const dbres = await client.query(query, [userId]);
       if (dbres.rowCount === 0) {
+        // Checks if user ID exists
         res.status(404).json({
           status: "failed",
-          message: "Resource not found.",
+          message: `User ID ${userId} does not exist.`,
         });
       } else {
-        res.status(200).json({
-          status: "success",
-          data: dbres.rows,
-        });
+        const query =
+          "DELETE FROM to_study_list WHERE user_id = $1 AND resource_id = $2 RETURNING *";
+        const dbres = await client.query(query, [userId, resourceId]);
+        if (dbres.rowCount === 0) {
+          // Checks if user actually has the resource in their to-study list
+          res.status(404).json({
+            status: "failed",
+            message: "Resource not found.",
+          });
+        } else {
+          res.status(200).json({
+            status: "success",
+            data: dbres.rows,
+          });
+        }
       }
     }
   );
 
   app.get("/tags", async (req, res) => {
-    const text = "select * from tag_names";
-    const dbres = await client.query(text);
-    res.status(200).json({
-      status: "success",
-      data: dbres.rows,
-    });
+    try {
+      const text = "select * from tag_names";
+      const dbres = await client.query(text);
+      res.status(200).json({
+        status: "success",
+        data: dbres.rows,
+      });
+    } catch (error) {
+      res.status(404).json({
+        status: "failed",
+        message: error,
+      });
+    }
   });
 
   app.get("/resources", async (req, res) => {
@@ -176,25 +223,33 @@ client.connect().then(() => {
     const resourceQuery =
       "SELECT resources.*, users.name, users.is_faculty FROM resources JOIN users ON resources.recommender_id = users.id WHERE resources.id = $1";
     const dbres = await client.query(resourceQuery, [resourceId]);
-    const likeCountQuery =
-      "SELECT liked FROM feedback WHERE feedback.resource_id = $1";
-    const dbresTwo = await client.query(likeCountQuery, [resourceId]);
 
-    const tagsQuery =
-      "SELECT tags.tag_id AS id, tag_names.name FROM tags JOIN tag_names ON tags.tag_id = tag_names.id WHERE tags.resource_id = $1";
-    const dbresThree = await client.query(tagsQuery, [resourceId]);
-    const likes = [];
-    for (const feedback of dbresTwo.rows) {
-      likes.push(feedback.liked);
+    if (dbres.rows[0]) {
+      const likeCountQuery =
+        "SELECT liked FROM feedback WHERE feedback.resource_id = $1";
+      const dbresTwo = await client.query(likeCountQuery, [resourceId]);
+
+      const tagsQuery =
+        "SELECT tags.tag_id AS id, tag_names.name FROM tags JOIN tag_names ON tags.tag_id = tag_names.id WHERE tags.resource_id = $1";
+      const dbresThree = await client.query(tagsQuery, [resourceId]);
+      const likes = [];
+      for (const feedback of dbresTwo.rows) {
+        likes.push(feedback.liked);
+      }
+      dbres.rows[0].tags = dbresThree.rows;
+      dbres.rows[0].likes = likes.filter((element) => element).length;
+      dbres.rows[0].dislikes = likes.filter((element) => !element).length;
+
+      res.status(200).json({
+        status: "success",
+        data: dbres.rows,
+      });
+    } else {
+      res.status(404).json({
+        status: "failed",
+        message: "Could not find a resource with this id",
+      });
     }
-    dbres.rows[0].tags = dbresThree.rows;
-    dbres.rows[0].likes = likes.filter((element) => element).length;
-    dbres.rows[0].dislikes = likes.filter((element) => !element).length;
-
-    res.status(200).json({
-      status: "success",
-      data: dbres.rows,
-    });
   });
 
   //POST /resources
@@ -275,6 +330,49 @@ client.connect().then(() => {
       }
     }
   );
+
+  // POST /comments/:resourceId
+  app.post<
+    { resourceId: number },
+    {},
+    { userId: number; liked: boolean; comment: string }
+  >("/comments/:resourceId", async (req, res) => {
+    const resourceId = req.params.resourceId;
+    const { userId, liked, comment } = req.body;
+    const checkResourceExistsQuery = "SELECT * FROM resources WHERE id = $1";
+    const dbresResourceCheck = await client.query(checkResourceExistsQuery, [
+      resourceId,
+    ]);
+    // check if resource exists to be commented on
+    if (dbresResourceCheck.rowCount === 1) {
+      const checkUserCommentsQuery =
+        "SELECT * FROM feedback WHERE user_id = $1 AND resource_id = $2";
+      const dbresUserCheck = await client.query(checkUserCommentsQuery, [
+        userId,
+        resourceId,
+      ]);
+      // check if user has already commented
+      if (dbresUserCheck.rowCount === 0) {
+        const query =
+          "INSERT INTO feedback (user_id, resource_id, liked, comment) VALUES ($1, $2, $3, $4) returning *";
+        const dbres = await client.query(query, [
+          userId,
+          resourceId,
+          liked,
+          comment,
+        ]);
+        res.status(201).json({ status: "success", data: dbres.rows });
+      } else {
+        res.status(403).json({
+          status: "failed",
+          message:
+            "One user cannot leave more than one comment on a single resource",
+        });
+      }
+    } else {
+      res.status(404).json({ status: "failed", message: "Resource not found" });
+    }
+  });
 
   // GET /tags/:resourceId
   app.get<{ resourceId: number }, {}, {}>(
