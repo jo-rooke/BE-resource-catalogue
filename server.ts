@@ -253,7 +253,25 @@ client.connect().then(() => {
   });
 
   //POST /resources
-  app.post("/resources", async (req, res) => {
+  app.post<
+    {},
+    {},
+    {
+      resource_name: string;
+      author_name: string;
+      url: string;
+      description: string;
+      content_type: string;
+      week_no: number;
+      recommender_id: number;
+      rec_status: string;
+      rec_message: string;
+      tags: {
+        id: number;
+        name: string;
+      }[];
+    }
+  >("/resources", async (req, res) => {
     const {
       resource_name,
       author_name,
@@ -287,13 +305,16 @@ client.connect().then(() => {
           rec_message,
         ]
       );
-      const result: IPostResourceResponse[] = resourceAdd.rows;
-      for (let tagId of tags) {
+      let result: IPostResourceResponse[] = resourceAdd.rows;
+      const tagsAdded = [];
+      for (const tag of tags) {
         await client.query(
           "insert into tags (resource_id, tag_id) values ($1,$2) returning *",
-          [result[0].id, tagId]
+          [result[0].id, tag.id]
         );
+        tagsAdded.push(tag);
       }
+      result[0].tags = tagsAdded;
       res.status(200).json({
         status: "success",
         data: result,
