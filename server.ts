@@ -44,12 +44,19 @@ client.connect().then(() => {
 
   // GET /users
   app.get("/users", async (req, res) => {
-    const dbres = await client.query("select * from users");
-    const userList = dbres.rows;
-    res.status(200).json({
-      status: "success",
-      data: userList,
-    });
+    try {
+      const dbres = await client.query("select * from users");
+      const userList = dbres.rows;
+      res.status(200).json({
+        status: "success",
+        data: userList,
+      });
+    } catch (error) {
+      res.status(404).json({
+        status: "failed",
+        message: error,
+      });
+    }
   });
 
   // GET /to-study-list/:userId
