@@ -184,7 +184,7 @@ client.connect().then(() => {
 
   app.get("/resources", async (req, res) => {
     const resourcesQuery =
-      "select id, resource_name, author_name, creation_date, description from resources order by creation_date desc";
+      "select id, resource_name, author_name, creation_date, description, url from resources order by creation_date desc";
     const dbres = await client.query(resourcesQuery);
 
     const feedbackQuery = "select resource_id, liked from feedback";
