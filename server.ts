@@ -342,7 +342,7 @@ client.connect().then(() => {
         });
       } else {
         const query2 =
-          "SELECT feedback.id, feedback.liked, feedback.comment, users.name FROM feedback JOIN users ON feedback.user_id = users.id WHERE resource_id = $1";
+          "SELECT feedback.id, feedback.liked, feedback.comment, users.name, user.id FROM feedback JOIN users ON feedback.user_id = users.id WHERE resource_id = $1";
         const dbres2 = await client.query(query2, [resourceId]);
         res.status(200).json({
           status: "success",
