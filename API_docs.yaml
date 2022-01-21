@@ -32,7 +32,48 @@ paths:
           schema:
             type: "integer"
             minimum: 1
+      requestBody:
+        description: "adding a new comment to the resource"
+        required: true
+        content:
+          application/json:
+            schema:
+              required:
+                - userId
+                - liked
+                - comment
+              type: object
+              properties:
+                userId:
+                  type: integer
+                liked:
+                  type: boolean
+                comment:
+                  type: string
+              example:
+                {
+                  "userId": 1,
+                  "liked": true,
+                  "comment": "Great recommendation!",
+                }
       responses:
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                required:
+                  - status
+                  - message
+                type: object
+                properties:
+                  status:
+                    type: string
+                  message:
+                    type: string
+                example:
+                  status: failed
+                  message: One user cannot leave more than one comment on a single resource
         "404":
           description: Not found
           content:
@@ -49,7 +90,7 @@ paths:
                     type: string
                 example:
                   status: failed
-                  message: resource not found
+                  message: Resource not found
         "200":
           description: OK
           content:
@@ -146,6 +187,10 @@ paths:
                           type: string
                         name:
                           type: string
+                        user_id:
+                          type: integer
+                          minimum: 1
+                          maximum: 100
                 example:
                   status: success
                   data:
@@ -153,10 +198,12 @@ paths:
                       liked: true
                       comment: Thanks for sharing!
                       name: Veta
+                      user_id: 4
                     - id: 1
                       liked: true
                       comment: Oh wow that is nice!
                       name: Jo
+                      user_id: 5
   /users:
     get:
       tags:
@@ -532,6 +579,68 @@ paths:
                 example:
                   status: failed
                   message: User ID 100 does not exist.
+  /tags/{resourceId}:
+    get:
+      tags:
+        - tag
+      summary: Get tags for a single resource
+      operationId: getTagByResourceId
+      parameters:
+        - in: path
+          name: resourceId
+          description: ID of the resource to find comments from
+          required: true
+          schema:
+            type: "integer"
+            minimum: 1
+      responses:
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                required:
+                  - status
+                  - message
+                type: object
+                properties:
+                  status:
+                    type: string
+                  message:
+                    type: string
+                example:
+                  status: failed
+                  message: Resource not found.
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                required:
+                  - status
+                  - data
+                type: object
+                properties:
+                  status:
+                    type: string
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          minimum: 1
+                        name:
+                          type: string
+                example:
+                  status: success
+                  data:
+                    [
+                      { id: 1, name: HTML },
+                      { id: 2, name: CSS },
+                      { id: 3, name: React },
+                    ]
   /tags:
     get:
       tags:
@@ -646,6 +755,10 @@ paths:
                           type: string
                         creation_date:
                           type: string
+                        description:
+                          type: string
+                        url:
+                          type: string
                         tags:
                           type: array
                           items:
@@ -704,6 +817,7 @@ paths:
                 - recommender_id
                 - rec_status
                 - rec_message
+                - tags
               type: object
               properties:
                 resource_name:
@@ -727,6 +841,16 @@ paths:
                   type: string
                 rec_message:
                   type: string
+                tags:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        minimum: 1
+                      name:
+                        type: string
               example:
                 resource_name: JavaScript tutorial
                 author_name: CodeCademy
@@ -838,6 +962,23 @@ paths:
             type: "integer"
             minimum: 1
       responses:
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                required:
+                  - status
+                  - message
+                type: object
+                properties:
+                  status:
+                    type: string
+                  message:
+                    type: string
+                example:
+                  status: failed
+                  message: Could not find a resource with this id
         "200":
           description: OK
           content:
