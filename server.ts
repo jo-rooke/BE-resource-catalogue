@@ -208,8 +208,8 @@ client.connect().then(() => {
         }
       }
       resource.tags = tags;
-      resource.likes = likes.filter((element) => element).length;
-      resource.dislikes = likes.filter((element) => !element).length;
+      resource.likes = likes.filter((element) => element === true).length;
+      resource.dislikes = likes.filter((element) => element === false).length;
     }
 
     res.status(200).json({
