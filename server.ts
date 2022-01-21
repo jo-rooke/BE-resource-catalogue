@@ -152,7 +152,7 @@ client.connect().then(() => {
         const dbres = await client.query(query, [userId, resourceId]);
         if (dbres.rowCount === 0) {
           // Checks if user actually has the resource in their to-study list
-          res.status(404).json({
+          res.status(405).json({
             status: "failed",
             message: "Resource not found.",
           });
