@@ -250,6 +250,13 @@
     <h4><a href="#Tag">Tag</a></h4>
     <ul>
       <li>
+        <a href="#getTagByResourceId"
+          ><code
+            ><span class="http-method">get</span> /tags/{resourceId}</code
+          ></a
+        >
+      </li>
+      <li>
         <a href="#getTags"
           ><code><span class="http-method">get</span> /tags</code></a
         >
@@ -308,12 +315,14 @@
     "id" : 2,
     "liked" : true,
     "comment" : "Thanks for sharing!",
-    "name" : "Veta"
+    "name" : "Veta",
+    "user_id" : 4
   }, {
     "id" : 1,
     "liked" : true,
     "comment" : "Oh wow that is nice!",
-    "name" : "Jo"
+    "name" : "Jo",
+    "user_id" : 5
   } ]
 }</code></pre>
 
@@ -361,6 +370,28 @@
       </div>
       <!-- field-items -->
 
+      <h3 class="field-label">Consumes</h3>
+      This API call consumes the following media types via the
+      <span class="header">Content-Type</span> request header:
+      <ul>
+        <li><code>application/json</code></li>
+      </ul>
+
+      <h3 class="field-label">Request body</h3>
+      <div class="field-items">
+        <div class="param">
+          body
+          <a href="#comments_resourceId_body">comments_resourceId_body</a>
+          (required)
+        </div>
+
+        <div class="param-desc">
+          <span class="param-type">Body Parameter</span> &mdash; adding a new
+          comment to the resource
+        </div>
+      </div>
+      <!-- field-items -->
+
       <h3 class="field-label">Return type</h3>
       <div class="return-type">
         <a href="#inline_response_200_1">inline_response_200_1</a>
@@ -395,9 +426,12 @@
       <h4 class="field-label">200</h4>
       OK
       <a href="#inline_response_200_1">inline_response_200_1</a>
+      <h4 class="field-label">403</h4>
+      Forbidden
+      <a href="#inline_response_403">inline_response_403</a>
       <h4 class="field-label">404</h4>
       Not found
-      <a href="#inline_response_404">inline_response_404</a>
+      <a href="#inline_response_404_1">inline_response_404_1</a>
     </div>
     <!-- method -->
     <hr />
@@ -552,6 +586,9 @@
       <h4 class="field-label">200</h4>
       OK
       <a href="#inline_response_200_8">inline_response_200_8</a>
+      <h4 class="field-label">404</h4>
+      Not found
+      <a href="#inline_response_404_4">inline_response_404_4</a>
     </div>
     <!-- method -->
     <hr />
@@ -724,7 +761,7 @@
       <a href="#inline_response_201">inline_response_201</a>
       <h4 class="field-label">404</h4>
       When the user ID is not found
-      <a href="#inline_response_404_2">inline_response_404_2</a>
+      <a href="#inline_response_404_3">inline_response_404_3</a>
       <h4 class="field-label">405</h4>
       When the resource already exists in the user&#x27;s to-study list
       <a href="#inline_response_405">inline_response_405</a>
@@ -798,7 +835,7 @@
       <a href="#inline_response_200_4">inline_response_200_4</a>
       <h4 class="field-label">404</h4>
       When the user ID is not found
-      <a href="#inline_response_404_2">inline_response_404_2</a>
+      <a href="#inline_response_404_3">inline_response_404_3</a>
       <h4 class="field-label">405</h4>
       When the resource ID does not exist in the user&#x27;s to-study list
       <a href="#inline_response_405_1">inline_response_405_1</a>
@@ -883,11 +920,80 @@
       <a href="#inline_response_200_3">inline_response_200_3</a>
       <h4 class="field-label">404</h4>
       When the user ID is not found
-      <a href="#inline_response_404_2">inline_response_404_2</a>
+      <a href="#inline_response_404_3">inline_response_404_3</a>
     </div>
     <!-- method -->
     <hr />
     <h1><a name="Tag">Tag</a></h1>
+    <div class="method">
+      <a name="getTagByResourceId"></a>
+      <div class="method-path">
+        <a class="up" href="#__Methods">Up</a>
+        <pre
+          class="get"
+        ><code class="huge"><span class="http-method">get</span> /tags/{resourceId}</code></pre>
+      </div>
+      <div class="method-summary">
+        Get tags for a single resource (<span class="nickname"
+          >getTagByResourceId</span
+        >)
+      </div>
+      <div class="method-notes"></div>
+
+      <h3 class="field-label">Path parameters</h3>
+      <div class="field-items">
+        <div class="param">resourceId (required)</div>
+
+        <div class="param-desc">
+          <span class="param-type">Path Parameter</span> &mdash; ID of the
+          resource to find comments from
+        </div>
+      </div>
+      <!-- field-items -->
+
+      <h3 class="field-label">Return type</h3>
+      <div class="return-type">
+        <a href="#inline_response_200_5">inline_response_200_5</a>
+      </div>
+
+      <!--Todo: process Response Object and its headers, schema, examples -->
+
+      <h3 class="field-label">Example data</h3>
+      <div class="example-data-content-type">
+        Content-Type: application/json
+      </div>
+      <pre class="example"><code>{
+  "status" : "success",
+  "data" : [ {
+    "id" : 1,
+    "name" : "HTML"
+  }, {
+    "id" : 2,
+    "name" : "CSS"
+  }, {
+    "id" : 3,
+    "name" : "React"
+  } ]
+}</code></pre>
+
+      <h3 class="field-label">Produces</h3>
+      This API call produces the following media types according to the
+      <span class="header">Accept</span> request header; the media type will be
+      conveyed by the <span class="header">Content-Type</span> response header.
+      <ul>
+        <li><code>application/json</code></li>
+      </ul>
+
+      <h3 class="field-label">Responses</h3>
+      <h4 class="field-label">200</h4>
+      OK
+      <a href="#inline_response_200_5">inline_response_200_5</a>
+      <h4 class="field-label">404</h4>
+      Not found
+      <a href="#inline_response_405_1">inline_response_405_1</a>
+    </div>
+    <!-- method -->
+    <hr />
     <div class="method">
       <a name="getTags"></a>
       <div class="method-path">
@@ -940,7 +1046,7 @@
       <a href="#inline_response_200_5">inline_response_200_5</a>
       <h4 class="field-label">404</h4>
       When the table &#x27;tags&#x27; is not found
-      <a href="#inline_response_404_1">inline_response_404_1</a>
+      <a href="#inline_response_404_2">inline_response_404_2</a>
     </div>
     <!-- method -->
     <hr />
@@ -1004,7 +1110,7 @@
       <a href="#inline_response_200_2">inline_response_200_2</a>
       <h4 class="field-label">404</h4>
       When the table &#x27;users&#x27; is not found
-      <a href="#inline_response_404_1">inline_response_404_1</a>
+      <a href="#inline_response_404_2">inline_response_404_2</a>
     </div>
     <!-- method -->
     <hr />
@@ -1014,6 +1120,11 @@
 
     <h3>Table of Contents</h3>
     <ol>
+      <li>
+        <a href="#comments_resourceId_body"
+          ><code>comments_resourceId_body</code></a
+        >
+      </li>
       <li>
         <a href="#inline_response_200"><code>inline_response_200</code></a>
       </li>
@@ -1045,6 +1156,9 @@
         <a href="#inline_response_201"><code>inline_response_201</code></a>
       </li>
       <li>
+        <a href="#inline_response_403"><code>inline_response_403</code></a>
+      </li>
+      <li>
         <a href="#inline_response_404"><code>inline_response_404</code></a>
       </li>
       <li>
@@ -1052,6 +1166,12 @@
       </li>
       <li>
         <a href="#inline_response_404_2"><code>inline_response_404_2</code></a>
+      </li>
+      <li>
+        <a href="#inline_response_404_3"><code>inline_response_404_3</code></a>
+      </li>
+      <li>
+        <a href="#inline_response_404_4"><code>inline_response_404_4</code></a>
       </li>
       <li>
         <a href="#inline_response_405"><code>inline_response_405</code></a>
@@ -1066,12 +1186,39 @@
         <a href="#resources_body"><code>resources_body</code></a>
       </li>
       <li>
+        <a href="#resources_tags"><code>resources_tags</code></a>
+      </li>
+      <li>
         <a href="#tostudylist_userId_body"
           ><code>tostudylist_userId_body</code></a
         >
       </li>
     </ol>
 
+    <div class="model">
+      <h3>
+        <a name="comments_resourceId_body"
+          ><code>comments_resourceId_body</code></a
+        >
+        <a class="up" href="#__Models">Up</a>
+      </h3>
+
+      <div class="field-items">
+        <div class="param">userId</div>
+        <div class="param-desc">
+          <span class="param-type"><a href="#integer">Integer</a></span>
+        </div>
+        <div class="param">liked</div>
+        <div class="param-desc">
+          <span class="param-type"><a href="#boolean">Boolean</a></span>
+        </div>
+        <div class="param">comment</div>
+        <div class="param-desc">
+          <span class="param-type"><a href="#string">String</a></span>
+        </div>
+      </div>
+      <!-- field-items -->
+    </div>
     <div class="model">
       <h3>
         <a name="inline_response_200"><code>inline_response_200</code></a>
@@ -1254,6 +1401,24 @@
     </div>
     <div class="model">
       <h3>
+        <a name="inline_response_403"><code>inline_response_403</code></a>
+        <a class="up" href="#__Models">Up</a>
+      </h3>
+
+      <div class="field-items">
+        <div class="param">status</div>
+        <div class="param-desc">
+          <span class="param-type"><a href="#string">String</a></span>
+        </div>
+        <div class="param">message</div>
+        <div class="param-desc">
+          <span class="param-type"><a href="#string">String</a></span>
+        </div>
+      </div>
+      <!-- field-items -->
+    </div>
+    <div class="model">
+      <h3>
         <a name="inline_response_404"><code>inline_response_404</code></a>
         <a class="up" href="#__Models">Up</a>
       </h3>
@@ -1283,7 +1448,7 @@
         </div>
         <div class="param">message</div>
         <div class="param-desc">
-          <span class="param-type"><a href="#object">Object</a></span>
+          <span class="param-type"><a href="#string">String</a></span>
         </div>
       </div>
       <!-- field-items -->
@@ -1291,6 +1456,42 @@
     <div class="model">
       <h3>
         <a name="inline_response_404_2"><code>inline_response_404_2</code></a>
+        <a class="up" href="#__Models">Up</a>
+      </h3>
+
+      <div class="field-items">
+        <div class="param">status</div>
+        <div class="param-desc">
+          <span class="param-type"><a href="#string">String</a></span>
+        </div>
+        <div class="param">message</div>
+        <div class="param-desc">
+          <span class="param-type"><a href="#object">Object</a></span>
+        </div>
+      </div>
+      <!-- field-items -->
+    </div>
+    <div class="model">
+      <h3>
+        <a name="inline_response_404_3"><code>inline_response_404_3</code></a>
+        <a class="up" href="#__Models">Up</a>
+      </h3>
+
+      <div class="field-items">
+        <div class="param">status</div>
+        <div class="param-desc">
+          <span class="param-type"><a href="#string">String</a></span>
+        </div>
+        <div class="param">message</div>
+        <div class="param-desc">
+          <span class="param-type"><a href="#string">String</a></span>
+        </div>
+      </div>
+      <!-- field-items -->
+    </div>
+    <div class="model">
+      <h3>
+        <a name="inline_response_404_4"><code>inline_response_404_4</code></a>
         <a class="up" href="#__Models">Up</a>
       </h3>
 
@@ -1400,6 +1601,30 @@
           <span class="param-type"><a href="#string">String</a></span>
         </div>
         <div class="param">rec_message</div>
+        <div class="param-desc">
+          <span class="param-type"><a href="#string">String</a></span>
+        </div>
+        <div class="param">tags</div>
+        <div class="param-desc">
+          <span class="param-type"
+            ><a href="#resources_tags">array[resources_tags]</a></span
+          >
+        </div>
+      </div>
+      <!-- field-items -->
+    </div>
+    <div class="model">
+      <h3>
+        <a name="resources_tags"><code>resources_tags</code></a>
+        <a class="up" href="#__Models">Up</a>
+      </h3>
+
+      <div class="field-items">
+        <div class="param">id (optional)</div>
+        <div class="param-desc">
+          <span class="param-type"><a href="#integer">Integer</a></span>
+        </div>
+        <div class="param">name (optional)</div>
         <div class="param-desc">
           <span class="param-type"><a href="#string">String</a></span>
         </div>
